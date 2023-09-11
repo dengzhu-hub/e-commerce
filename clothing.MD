@@ -61,3 +61,52 @@ export default Directory;
 
 ```
 
+#### react-router-dom
+
+[click here👉️](https://reactrouter.com/en/main/start/tutorial)
+在传统网站中，浏览器从 Web 服务器请求文档，下载并评估 CSS 和 JavaScript 资源，并呈现从服务器发送的 HTML。当用户单击链接时，它会在新页面上重新启动该过程。
+
+客户端路由允许您的应用程序通过链接点击更新 URL，而无需从服务器再次请求另一个文档。相反，您的应用程序可以立即呈现一些新的 UI 并发出数据请求，以`fetch`使用新信息更新页面。
+
+这可以实现更快的用户体验，因为浏览器不需要请求全新的文档或重新评估下一页的 CSS 和 JavaScript 资源。它还通过动画等方式实现更动态的用户体验。
+
+##### browserRouter
+
+A `<BrowserRouter>` stores the current location in the browser's address bar using clean URLs and navigates using the browser's built-in history stack.
+
+```jsx
+import { BrowserRouter } from "react-router-dom";
+
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+);
+
+```
+
+##### Routes, route
+
+路由可能是 React Router 应用程序中最重要的部分。它们将 URL 段与组件、数据加载和数据突变耦合起来。通过路由嵌套，复杂的应用程序布局和数据依赖关系变得简单且具有声明性。
+
+```
+import { Routes, Route } from "react-router-dom";
+```
+
+```jsx
+ return (
+    <Routes>
+      <Route path="/" element={<Home />}></Route>
+      <Route path="/shop" element={<Shop />}></Route>
+    </Routes>
+  );
+```
+
+![image-20230911114059833](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309111141818.png)
+
+![image-20230911114107955](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309111141079.png)
+
+nest route
+
