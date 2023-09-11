@@ -1,4 +1,4 @@
-import Directory from "../directories/directory.component";
+import Directory from "../../components/directories/directory.component";
 import jsonData from "../../data.json";
 import { Outlet } from "react-router-dom";
 function Home() {
