@@ -1,14 +1,7 @@
-import Home from "./components/home/home.component";
-import { Routes, Route, Outlet } from "react-router-dom";
+import Home from "./routes/home/home.component";
+import { Routes, Route } from "react-router-dom";
+import Navigation from "./routes/navigation/navigation.component";
 // import Category from "./components/category.component";
-function Navigator() {
-  return (
-    <div>
-      <h1>I'm a navigation,</h1>
-      <Outlet />
-    </div>
-  );
-}
 function Shop() {
   return (
     <>
@@ -20,7 +13,11 @@ function App() {
   // console.log(jsonData);
   return (
     <Routes>
+<<<<<<< HEAD
       <Route path="/" element={<Navigator />}>
+=======
+      <Route path="/" element={<Navigation />}>
+>>>>>>> jack-study-navigation
         <Route index element={<Home />}></Route>
         <Route path="shop" element={<Shop />}></Route>
       </Route>
