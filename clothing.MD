@@ -58,3 +58,14 @@ const Directory = ({ categorys }) => {
 };
 export default Directory;
 ```
+```
+import { ReactComponent as CrowLogo } from "../../assets/crown.svg";
+```
+{ ReactComponent as CrowLogo }：这部分代码是将 SVG 图像作为 React 组件导入。具体来说，它导入了一个名为 CrowLogo 的 React 组件，这个组件将代表导入的 SVG 图像。
+e.g
+```
+ <Link className="nav-logo__container" to="/">
+          <CrowLogo className="nav-logo" />
+          
+        </Link>
+```
