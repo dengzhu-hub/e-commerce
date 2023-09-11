@@ -1,6 +1,6 @@
 # clothing-shoping project
 
-------
+---
 
 项目结构
 
@@ -21,7 +21,7 @@ import "./category-item.scss";
 const CategoryItem = ({ category }) => {
   const { imageUrl, title } = category;
   return (
-    <div className="category-container" >
+    <div className="category-container">
       <div
         className="background-image"
         style={{
@@ -36,7 +36,6 @@ const CategoryItem = ({ category }) => {
   );
 };
 export default CategoryItem;
-
 ```
 
 效果
@@ -58,6 +57,4 @@ const Directory = ({ categorys }) => {
   );
 };
 export default Directory;
-
 ```
-
