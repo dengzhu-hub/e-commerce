@@ -128,7 +128,7 @@ nest route
 这样直接打开网页就会显示home，和navigation
 
 ![image-20230911122834746](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309111228502.png)
->>>>>>> jack-study
+>>>>>>> jack-study-navigation
 =======
 ```
 import { ReactComponent as CrowLogo } from "../../assets/crown.svg";
