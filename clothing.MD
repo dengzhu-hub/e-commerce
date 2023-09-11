@@ -1,6 +1,6 @@
 # clothing-shoping project
 
-------
+---
 
 项目结构
 
@@ -21,7 +21,7 @@ import "./category-item.scss";
 const CategoryItem = ({ category }) => {
   const { imageUrl, title } = category;
   return (
-    <div className="category-container" >
+    <div className="category-container">
       <div
         className="background-image"
         style={{
@@ -36,7 +36,6 @@ const CategoryItem = ({ category }) => {
   );
 };
 export default CategoryItem;
-
 ```
 
 效果
@@ -58,7 +57,6 @@ const Directory = ({ categorys }) => {
   );
 };
 export default Directory;
-
 ```
 
 #### react-router-dom
@@ -84,7 +82,6 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
 ```
 
 ##### Routes, route
@@ -96,12 +93,12 @@ import { Routes, Route } from "react-router-dom";
 ```
 
 ```jsx
- return (
-    <Routes>
-      <Route path="/" element={<Home />}></Route>
-      <Route path="/shop" element={<Shop />}></Route>
-    </Routes>
-  );
+return (
+  <Routes>
+    <Route path="/" element={<Home />}></Route>
+    <Route path="/shop" element={<Shop />}></Route>
+  </Routes>
+);
 ```
 
 ![image-20230911114059833](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309111141818.png)
@@ -110,3 +107,21 @@ import { Routes, Route } from "react-router-dom";
 
 nest route
 
+```jsx
+ <Routes>
+      <Route path="/" element={<Navigator />}>
+        <Route path="home" element={<Home />}></Route>
+        <Route path="shop" element={<Shop />}></Route>
+      </Route>
+```
+这里我们还可以用index，替换掉子路由得路径，like this
+```jsx
+<Routes>
+<Route path="/" element={<Navigator/>}/>
+<Route index element={<Home/>}/>
+<Route path="shop" element={<Shop/>}/>
+</Routes>
+```
+这样直接打开网页就会显示home，和navigation
+
+![image-20230911122834746](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309111228502.png)
