@@ -5,6 +5,7 @@ import {
   signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,11 +24,17 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
+const facebookAuthProvider = new FacebookAuthProvider();
+facebookAuthProvider.setCustomParameters({
+  prompt: "select_account",
+});
 googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 export const auth = getAuth();
 export const signInWithGooglePop = () => signInWithPopup(auth, googleProvider);
+export const signWithFaacePop = () =>
+  signInWithPopup(auth, facebookAuthProvider);
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
