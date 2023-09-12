@@ -73,3 +73,21 @@ firebase
 [click here 👍](https://console.firebase.google.com/project/fast-gate-386514/overview)
 
 Firebase 是由 Google 提供的移动应用和 Web 应用开发平台，它提供了一系列工具和服务，用于构建高质量的应用程序。Firebase 提供了多种功能，包括实时数据库、身份认证、云存储、云函数、推送通知、性能监控、分析等。下面是 Firebase 提供的一些主要功能和服务：
+
+
+
+##### REACT CURD
+
+![IMG_1469(20230912-101328)](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121030174.JPG)
+
+
+
+fetch data from firebase 
+
+e.g1 Anderi  fetch his own profile, Authentication after server send his profile to him
+
+![IMG_1470(20230912-103044)](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121031606.JPG)
+
+e.g2 Andrei want request  YiHua profile ,after Authentication, server not send the data to him
+
+![IMG_1471(20230912-103104)](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121033680.JPG)
