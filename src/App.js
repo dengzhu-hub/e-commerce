@@ -7,10 +7,13 @@ function Shop() {
     <>
       <h1>Hello, I'm the shop page!</h1>
     </>
+    
   );
 }
 function App() {
   // console.log(jsonData);
+  console.log('hello world');
+  
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>
