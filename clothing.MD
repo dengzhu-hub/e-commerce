@@ -91,3 +91,103 @@ e.g1 Anderi  fetch his own profile, Authentication after server send his profile
 e.g2 Andrei want request  YiHua profile ,after Authentication, server not send the data to him
 
 ![IMG_1471(20230912-103104)](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121033680.JPG)
+
+use firebase
+
+```javascript
+const firebaseApp = initializeApp(firebaseConfig);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: "select_account",
+});
+export const auth = getAuth();
+export const signInWithGooglePop = () => signInWithPopup(auth, provider);
+const db = getFirestore();
+export const createUserDocumentFromAuth = userAuth => {
+  const userDocRef = doc(db, "user", userAuth.uid);
+  console.log(userDocRef);
+};
+
+```
+
+![image-20230912132605082](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121326321.png)
+
+component 
+
+```jsx
+import {
+  signInWithGooglePop,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase.utils";
+
+const Sign = () => {
+  const loginGoogleUser = async () => {
+    const {user} = await signInWithGooglePop();
+    // console.log(user);
+    createUserDocumentFromAuth(user)
+  };
+  return (
+    <div>
+      <h1>sign in</h1>
+      <button onClick={loginGoogleUser}>sign with google user</button>
+    </div>
+  );
+};
+
+export default Sign;
+
+```
+
+![image-20230912135650752](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121356862.png)
+
+![image-20230912135617113](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121356197.png)
+
+sign with redirect
+
+```javascript
+export const signInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, googleProvider);
+```
+
+这里我们代码执行完成后，控制台却没有任何输出，但是我们检查firebase，他还是添加成功
+
+```jsx
+  const loginWithRedirect = async () => {
+    const { user } = await signInWithGoogleRedirect();
+    console.log(user);
+  };
+```
+
+尽管我们这里有console语句，但是控制台没有输出任何有关
+
+![image-20230912144150508](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121441630.png)
+
+但是我们用popup执行，控制台输出
+
+![image-20230912144258196](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121442263.png)
+
+![image-20230912143937404](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309121439688.png)
+
+我们可以利用getRedirectResult，useEffect hook去解决
+
+```jsx
+import { getRedirectResult } from "firebase/auth";
+import { useEffect } from "react";
+
+```
+
+```jsx
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getRedirectResult(auth);
+        console.log(res);
+      } catch (error) {
+        console.error("Error fetching redirect result:", error);
+      }
+    };
+
+    fetchData(); // 调用异步函数
+  }, []);
+```
+
