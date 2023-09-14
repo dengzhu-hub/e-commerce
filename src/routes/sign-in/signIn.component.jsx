@@ -5,7 +5,7 @@ import {
   signWithFaacePop,
   createUserDocumentFromAuth,
   signInWithGoogleRedirect,
-} from "../../utils/firebase.utils";
+} from "../../utils/firebase/firebase.utils";
 
 const Sign = () => {
   const loginGoogleUserWithPopUp = async () => {

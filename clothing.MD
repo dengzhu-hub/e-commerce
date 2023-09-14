@@ -190,4 +190,64 @@ import { useEffect } from "react";
     fetchData(); // 调用异步函数
   }, []);
 ```
+当状态改变时发生
+```javascript
+  const onHandleChanged = e => {
+    console.log(e.target); //<input id="name" name="displayName" type="text" required="" value="22">
+    const { name, value } = e.target;
+    console.log(name, value);
+    setFormFields({ ...formFields, [name]: value });// 这里采用扩展语法，创建一个新对象，方括号语法[express]，跟表达式：value就是后面的值
+    输出就像这样 {displayName: '2'}
+    console.log({[name]: value});
+  };
+// {displayName: '2', email: '23', password: '', confirmPassword: ''}
+```
+标签里面的值
+```javascript
+  <label >display name</label>
+        <input
+          id="name"
+          name="displayName"
+          type="text"
+          onChange={onHandleChanged}
+          required
+          value={displayName}
+        />
+```
+创建一个对象，赋值
+```javascript
+const defaultFormField = {
+  displayName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+```
+利用useState
+```jsx
+  const [formFields, setFormFields] = useState(defaultFormField);
+const { displayName, email, password, confirmPassword } = formFields; // 解构这个对象
+```
 
+formInput component
+```
+import "./formInput.style.scss";
+const FromInput = ({ label, ...otherProps }) => {
+  return (
+    <div className="form-input__container">
+      <input className="form-input__text" {...otherProps} />
+      {label && (
+        <label
+          className={`${
+            otherProps.value.length ? "shrink" : ""
+          } form-input__label`}
+        >
+          {label}
+        </label>
+      )}
+    </div>
+  );
+};
+export default FromInput;
+
+```
