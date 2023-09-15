@@ -1,0 +1,11 @@
+.btn-sign__In {
+  cursor: pointer;
+  border: none;
+  padding: 1.5rem 3rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.2);
+  }
+}

@@ -1,0 +1,9 @@
+.signUp-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  width: 30%;
+  .signUp-title {
+    margin: 10px 0;
+  }
+}
