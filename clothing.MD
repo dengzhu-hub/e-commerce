@@ -302,3 +302,97 @@ export default FromInput;
 ```
 
 ![image-20230914151623801](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309141516082.png)
+
+##### Sign in
+
+我们先copy 一份从sign up 
+
+我们继续在sign in创建一个google登陆方法
+
+```jsx
+  const signWithGoogle = async () => {
+    const { user } = await signInWithGooglePop();
+    // console.log(user);
+    await createUserDocumentFromAuth(user);
+  };
+```
+
+我们修改 onHandleSubmit（），try block
+
+```jsx
+ try {
+      const response = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      console.log(response);
+      /**
+       * clear form input
+       */
+      resetFormField();
+    }
+```
+
+catch
+
+```jsx
+catch (error) {
+      switch (error.code) {
+        case "auth/user-not-found":
+          alert("👤.user not found, please try again, \u{1F920} ");
+          break;
+        case "auth/wrong-password":
+          alert("🔑.password is incorrect, please try again");
+          break;
+        default:
+          console.log(error);
+      }
+    }
+```
+
+input changed ()
+
+```jsx
+  const onHandleChanged = e => {
+    console.log(e.target);
+    const { name, value } = e.target;
+    console.log(name, value);
+    setFormFields({ ...formFields, [name]: value });
+    console.log({ [name]: value });
+  };
+```
+
+
+
+authen page
+
+```jsx
+  return (
+    <div className="authentication-container">
+      <SignInForm />
+      <SignUpForm />
+    </div>
+  );
+```
+
+![image-20230915105443833](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309151054306.png)
+
+### useContext
+
+![IMG_1474(20230915-103813)](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309151055699.JPG)
+
+Lifting state up
+
+![Diagram with a tree of three components. The parent contains a bubble representing a value highlighted in purple. The value flows down to each of the two children, both highlighted in purple.](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_lifting_state.dark.png&w=1920&q=75)
+
+Prop drilling
+
+![Diagram with a tree of ten nodes, each node with two children or less. The root node contains a bubble representing a value highlighted in purple. The value flows down through the two children, each of which pass the value but do not contain it. The left child passes the value down to two children which are both highlighted purple. The right child of the root passes the value through to one of its two children - the right one, which is highlighted purple. That child passed the value through its single child, which passes it down to both of its two children, which are highlighted purple.](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_prop_drilling.dark.png&w=1920&q=75)
+
+Using context in close children
+
+![Diagram with a tree of three components. The parent contains a bubble representing a value highlighted in orange which projects down to the two children, each highlighted in orange.](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_context_close.dark.png&w=1920&q=75)
+
+Using context in distant children
+
+![Diagram with a tree of ten nodes, each node with two children or less. The root parent node contains a bubble representing a value highlighted in orange. The value projects down directly to four leaves and one intermediate component in the tree, which are all highlighted in orange. None of the other intermediate components are highlighted.](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_context_far.dark.png&w=1920&q=75)

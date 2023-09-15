@@ -9,3 +9,10 @@
     transform: scale(1.2);
   }
 }
+
+.authentication-container {
+  display: flex;
+  max-width: 90rem;
+  margin: 3rem auto;
+  justify-content: space-between;
+}

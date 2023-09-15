@@ -32,7 +32,6 @@ const SignInForm = () => {
   };
   const onHandleSubmit = async e => {
     e.preventDefault();
-
     try {
       const response = await signInAuthUserWithEmailAndPassword(
         email,
@@ -43,16 +42,20 @@ const SignInForm = () => {
        * clear form input
        */
       resetFormField();
-    } catch (err) {
-      if (err.code === "auth/weak-password") {
-        alert("password are too short.");
-      } else if (err.code === "auth/email-already-in-use") {
-        alert("email is already in use");
-      } else {
-        console.log(err);
+    } catch (error) {
+      switch (error.code) {
+        case "auth/user-not-found":
+          alert("👤.user not found, please try again, \u{1F920} ");
+          break;
+        case "auth/wrong-password":
+          alert("🔑.password is incorrect, please try again");
+          break;
+        default:
+          console.log(error);
       }
     }
   };
+
   const onHandleChanged = e => {
     console.log(e.target);
     const { name, value } = e.target;
@@ -62,8 +65,8 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="signUp-container">
-      <h2 className="signUp-title">Already have an your account</h2>
+    <div className="signIn-container">
+      <h2 className="signIn-title">Already have an your account</h2>
       <span>Sign In with your Email and password.</span>
       <form action="" onSubmit={onHandleSubmit}>
         <FormInput
@@ -88,11 +91,11 @@ const SignInForm = () => {
         <div className="buttons-container">
           <Button type="submit"> Sign In</Button>
 
-          <Button buttonType="google" onClick={signWithGoogle}>
+          <Button type="button" buttonType="google" onClick={signWithGoogle}>
             <img
+              className="sign-in__icon"
               alt="icon"
               src="https://ui-cdn.digitalocean.com/registration-next/399776b27f10a89571b17850f82383af2841fa66/static/media/oauth-logo-google.420169f299402ff6bd627eeff16bad0d.svg"
-              class="icon"
             />
             <span className="button-title">Sign In With Google</span>
           </Button>

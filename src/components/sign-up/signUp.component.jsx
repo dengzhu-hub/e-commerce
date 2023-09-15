@@ -105,14 +105,6 @@ const SignUpForm = () => {
           value={confirmPassword}
         />
         <Button type="submit"> Sign Up</Button>
-        <Button buttonType="google" type="submit">
-          <img
-            alt="icon"
-            src="https://ui-cdn.digitalocean.com/registration-next/399776b27f10a89571b17850f82383af2841fa66/static/media/oauth-logo-google.420169f299402ff6bd627eeff16bad0d.svg"
-            class="icon"
-          />
-          <span className="button-title">Sign Up With Google</span>
-        </Button>
       </form>
     </div>
   );

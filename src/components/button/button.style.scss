@@ -1,7 +1,7 @@
 @import "../../../node_modules/open-color/open-color.scss";
 .button-container {
   // min-width: 165px;
-  width: auto;
+  // width: 50%;
   height: 50px;
   letter-spacing: 0.5px;
   border-radius: 10px;
@@ -34,6 +34,7 @@
     &:hover {
       background-color: rgb(0, 97, 235);
       border: none;
+      color: $oc-white;
     }
   }
 
@@ -48,9 +49,8 @@
       border: none;
     }
   }
-  .icon {
-  }
-  .button-title {
-   
+  .sign-in__icon {
+    background-color: $oc-white;
+    padding: 2.5px;
   }
 }
