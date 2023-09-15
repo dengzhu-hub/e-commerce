@@ -1,10 +1,11 @@
 import { useState } from "react";
-import FormItemInput from "antd/es/form/FormItemInput";
+import "./signUp.style.scss";
+import Button from "../../components/button/button.component";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
-import FromInput from "../form-input/formInput.component";
+import FormInput from "../form-input/formInput.component";
 
 const defaultFormField = {
   displayName: "",
@@ -33,6 +34,7 @@ const SignUpForm = () => {
         email,
         password
       );
+      console.log(user);
       /**
        * clear form input
        */
@@ -59,10 +61,11 @@ const SignUpForm = () => {
   };
 
   return (
-    <div>
-      <h1>Sign up with your Email.</h1>
+    <div className="signUp-container">
+      <h2 className="signUp-title">Create your account</h2>
+      <span>Sign up with your Email.</span>
       <form action="" onSubmit={onHandleSubmit}>
-        <FromInput
+        <FormInput
           label="displayName"
           id="name"
           name="displayName"
@@ -72,8 +75,8 @@ const SignUpForm = () => {
           value={displayName}
         />
 
-        <FromInput
-        label="email"
+        <FormInput
+          label="email"
           id="email"
           type="email"
           name="email"
@@ -82,8 +85,8 @@ const SignUpForm = () => {
           value={email}
         />
 
-        <FromInput
-        label="password"
+        <FormInput
+          label="password"
           id="password"
           type="password"
           name="password"
@@ -92,7 +95,7 @@ const SignUpForm = () => {
           value={password}
         />
 
-        <FromInput
+        <FormInput
           id="confirmPassword"
           label="confirmPassword"
           name="confirmPassword"
@@ -101,7 +104,15 @@ const SignUpForm = () => {
           required
           value={confirmPassword}
         />
-        <button type="submit"> Sign Up</button>
+        <Button type="submit"> Sign Up</Button>
+        <Button buttonType="google" type="submit">
+          <img
+            alt="icon"
+            src="https://ui-cdn.digitalocean.com/registration-next/399776b27f10a89571b17850f82383af2841fa66/static/media/oauth-logo-google.420169f299402ff6bd627eeff16bad0d.svg"
+            class="icon"
+          />
+          <span className="button-title">Sign Up With Google</span>
+        </Button>
       </form>
     </div>
   );

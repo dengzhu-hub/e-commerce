@@ -1,8 +1,7 @@
 import "./formInput.style.scss";
-const FromInput = ({ label, ...otherProps }) => {
+const FormInput = ({ label, ...otherProps }) => {
   return (
     <div className="form-input__container">
-      <input className="form-input__text" {...otherProps} />
       {label && (
         <label
           className={`${
@@ -12,7 +11,9 @@ const FromInput = ({ label, ...otherProps }) => {
           {label}
         </label>
       )}
+
+      <input className="form-input__text" {...otherProps} />
     </div>
   );
 };
-export default FromInput;
+export default FormInput;

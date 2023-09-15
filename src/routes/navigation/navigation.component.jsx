@@ -13,7 +13,7 @@ function Navigation() {
           <Link className="nav-link__to" to="/shop">
             SHOP
           </Link>
-          <Link className="nav-link__to" to="/signIn">
+          <Link className="nav-link__to" to="/auth">
             Sign in
           </Link>
         </div>

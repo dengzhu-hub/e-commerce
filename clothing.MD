@@ -230,7 +230,7 @@ const { displayName, email, password, confirmPassword } = formFields; // 解构�
 ```
 
 formInput component
-```
+```jsx
 import "./formInput.style.scss";
 const FromInput = ({ label, ...otherProps }) => {
   return (
@@ -251,3 +251,54 @@ const FromInput = ({ label, ...otherProps }) => {
 export default FromInput;
 
 ```
+
+这里我们用到了，短路操作符
+
+```jsx
+{label && (
+        <label
+          className={`${
+            otherProps.value.length ? "shrink" : ""
+          } form-input__label`}
+        >
+          {label}
+        </label>
+      )}
+// 当label为true时，我们就运行右的。
+```
+
+我们注意到这里有两个参数，label，还有一个扩展语法组成的参数
+
+当我们父组件调用时
+
+```jsx
+    <FromInput
+          label="displayName"
+          id="name"
+          name="displayName"
+          type="text"
+          onChange={onHandleChanged}
+          required
+          value={displayName}
+        />
+```
+
+这里我们可以看到，我们只传递了一些列参数，这样就很方便。
+
+我们也可以把他放在一个object里面
+
+```jsx
+<FromInput
+          label="displayName"
+          inputOptions={{
+            id: "name",
+            name: "displayName",
+            type: "text",
+            onChange: onHandleChanged,
+            required: true,
+            value: displayName,
+          }}
+        />
+```
+
+![image-20230914151623801](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309141516082.png)
