@@ -1,8 +1,6 @@
 import { useState } from "react";
 import "./signUp.style.scss";
 import Button from "../../components/button/button.component";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/user.context";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
