@@ -18,14 +18,14 @@ const defaultFormField = {
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
-  const val = useContext(UserContext);
+  // const val = useContext(UserContext);
   console.log("hit");
 
   // console.log(formFields);
   // console.log({ ...formFields });
 
   const { displayName, email, password, confirmPassword } = formFields;
-  const { setCurrentUser } = useContext(UserContext);
+  // const { setCurrentUser } = useContext(UserContext);
   const resetFormField = () => {
     setFormFields(defaultFormField);
   };
@@ -40,7 +40,7 @@ const SignUpForm = () => {
         email,
         password
       );
-      setCurrentUser(user);
+      // setCurrentUser(user);
       // console.log(user);
       /**
        * clear form input
