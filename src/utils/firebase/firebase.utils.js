@@ -6,8 +6,10 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
+  signOut,
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -49,7 +51,7 @@ export const signInWithGoogleRedirect = () =>
 const db = getFirestore();
 export const createUserDocumentFromAuth = async (
   userAuth,
-  additionaslInfo = {}
+  additionalInfo = {}
 ) => {
   if (!userAuth) return;
   const userDocRef = doc(db, "user", userAuth.uid);
@@ -67,7 +69,7 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...additionaslInfo,
+        ...additionalInfo,
       });
     } catch (err) {
       console.error(err);
@@ -81,8 +83,22 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 
   return await createUserWithEmailAndPassword(auth, email, password);
 };
+/**email and password to login in
+ * @param {string} email, password
+ * @returns {Promise}
+ */
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
   return await signInWithEmailAndPassword(auth, email, password);
+};
+/**sign out method
+ * @param {undefined} none
+ * @return {undefined}
+ * @private {boolean} false
+ */
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener =  (callback) => {
+  onAuthStateChanged(auth, callback);
 };

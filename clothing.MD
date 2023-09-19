@@ -396,3 +396,48 @@ Using context in close children
 Using context in distant children
 
 ![Diagram with a tree of ten nodes, each node with two children or less. The root parent node contains a bubble representing a value highlighted in orange. The value projects down directly to four leaves and one intermediate component in the tree, which are all highlighted in orange. None of the other intermediate components are highlighted.](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_context_far.dark.png&w=1920&q=75)
+
+useContext, createContext
+```javascript
+import { createContext, useState } from "react";
+
+
+```
+createContext
+```javascript
+export const UserContext = createContext({
+  currentUser: null,
+  setCurrentUser: () => null,
+});
+```
+Provider
+```javascript
+
+export const UserProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const value = { currentUser, setCurrentUser };
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};
+```
+去用我们的context
+```javascript
+      <UserProvider>
+        <App />
+      </UserProvider>
+  ```
+在我们需要的地方signIn.jsx，用setCurrentUser,存入数据
+like this
+```javascript
+   const { user } = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      console.log(user)
+      setCurrentUser(user);
+  
+```
+我们在navigation.jsx 使用它
+
+
+
+    

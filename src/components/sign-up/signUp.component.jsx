@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./signUp.style.scss";
 import Button from "../../components/button/button.component";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/user.context";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -16,10 +18,14 @@ const defaultFormField = {
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
-  console.log(formFields);
-  console.log({ ...formFields });
+  const val = useContext(UserContext);
+  console.log("hit");
+
+  // console.log(formFields);
+  // console.log({ ...formFields });
 
   const { displayName, email, password, confirmPassword } = formFields;
+  const { setCurrentUser } = useContext(UserContext);
   const resetFormField = () => {
     setFormFields(defaultFormField);
   };
@@ -34,13 +40,14 @@ const SignUpForm = () => {
         email,
         password
       );
-      console.log(user);
+      setCurrentUser(user);
+      // console.log(user);
       /**
        * clear form input
        */
       resetFormField();
 
-      createUserDocumentFromAuth(user, { displayName });
+      await createUserDocumentFromAuth(user, { displayName });
       console.log(user);
     } catch (err) {
       if (err.code === "auth/weak-password") {
@@ -55,15 +62,15 @@ const SignUpForm = () => {
   const onHandleChanged = e => {
     console.log(e.target);
     const { name, value } = e.target;
-    console.log(name, value);
+    // console.log(name, value);
     setFormFields({ ...formFields, [name]: value });
-    console.log({ [name]: value });
+    // console.log({ [name]: value });
   };
 
   return (
     <div className="signUp-container">
       <h2 className="signUp-title">Create your account</h2>
-      <span>Sign up with your Email.</span>
+      <span className="sub-title">Sign up with your Email.</span>
       <form action="" onSubmit={onHandleSubmit}>
         <FormInput
           label="displayName"

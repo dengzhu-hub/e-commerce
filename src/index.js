@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 import { UserProvider } from "./contexts/user.context";
 import "./index.scss";
 import App from "./App";
-// import MyApp from './utils/clasj/login';
 import reportWebVitals from "./reportWebVitals";
 
 const root = createRoot(document.getElementById("root"));

@@ -5,7 +5,7 @@ import FormInput from "../form-input/formInput.component";
 import { UserContext } from "../../contexts/user.context";
 import { useContext } from "react";
 import {
-  signInWithGooglePop,
+  signInWithGooglePop,  
   createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
@@ -17,8 +17,8 @@ const defaultFormField = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
   const { setCurrentUser } = useContext(UserContext);
-  console.log(formFields);
-  console.log({ ...formFields });
+  // console.log(formFields);
+  // console.log({ ...formFields });
 
   const { email, password } = formFields;
   const resetFormField = () => {
@@ -33,6 +33,13 @@ const SignInForm = () => {
     // console.log(user);
     await createUserDocumentFromAuth(user);
   };
+
+  /**
+   * submit method
+   * @param {e} 当前点击的对象
+   * @return {undefined} 
+   * @author jackdeng
+   */
   const onHandleSubmit = async e => {
     e.preventDefault();
     try {
@@ -40,8 +47,8 @@ const SignInForm = () => {
         email,
         password
       );
-      console.log(user)
       setCurrentUser(user);
+      // console.log(user)
   
       /**
        * clear form input
@@ -61,18 +68,23 @@ const SignInForm = () => {
     }
   };
 
+  /**
+   * 当输入框里的内容改变时，触发
+   * @param {e} 当前操作的对象
+   * @return {html} dom object
+   */
   const onHandleChanged = e => {
-    console.log(e.target);
+    // console.log(e.target);
     const { name, value } = e.target;
-    console.log(name, value);
+    // console.log(name, value);
     setFormFields({ ...formFields, [name]: value });
-    console.log({ [name]: value });
+    // console.log({ [name]: value });
   };
 
   return (
     <div className="signIn-container">
       <h2 className="signIn-title">Already have an your account</h2>
-      <span>Sign In with your Email and password.</span>
+      <span className="sub-title">Sign In with your Email and password.</span>
       <form action="" onSubmit={onHandleSubmit}>
         <FormInput
           label="email"
