@@ -1,3 +1,5 @@
+
+
 # clothing-shoping project
 
 ---
@@ -424,7 +426,7 @@ export const UserProvider = ({ children }) => {
       <UserProvider>
         <App />
       </UserProvider>
-  ```
+```
 在我们需要的地方signIn.jsx，用setCurrentUser,存入数据
 like this
 ```javascript
@@ -438,6 +440,58 @@ like this
 ```
 我们在navigation.jsx 使用它
 
+useContext，就是当他的状态发生改变后，他会rerender component，不管有没有使用它
 
+像这里我们在signUp将useContext值，赋值给val变量
 
-    
+```jsx
+  const val = useContext(UserContext);
+console.log('hit')
+```
+
+当我们刷新浏览器，他会被第一次渲染，这是肯定的
+
+![image-20230919104008185](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309191040426.png)
+
+​    然后当我们点击signIn按钮时，因为我们在sign使用了
+
+```jsx
+   const { user } = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      setCurrentUser(user);
+```
+
+如果我们触发这个方法，它的值还是null'，当我们点击sign in button后，现在currentUser里面就是user对象了，
+
+所以useContext状态就改变了，所以会再一次渲染，component，所以自然的，console在出现一遍。
+
+usecontext记录login state info
+
+![image-20230919130043209](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309191300338.png)
+
+现在我们利用firebase 自带 onAuthStateChanged 去记录login info
+
+```jsx
+export const onAuthStateChangedListener =  (callback) => {
+  onAuthStateChanged(auth, callback);
+};
+
+```
+
+我们就注释掉useContext 的setCurentUser()
+
+![image-20230919130327798](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309191303860.png)![image-20230919130342278](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309191303331.png)
+
+当我们点击sign In 按钮时，控制台任然输出
+
+![image-20230919130519225](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309191305304.png)
+
+这就是firebase自带的api记录，尽管我们刷新页面，他还是会保存在firebase上
+
+<video src="D:\Video\Captures\React App - Google Chrome 2023-09-19 13-06-18.mp4"></video>
+
+![image-20230919130848139](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309191308288.png)
+
+signOut api可以取消
