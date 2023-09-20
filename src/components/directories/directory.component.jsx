@@ -1,9 +1,9 @@
 import CategoryItem from "../category-item/category-item";
 import "./directory.component.scss";
-const Directory = ({ categorys }) => {
+const Directory = ({ categories }) => {
   return (
     <div className="directory-cointainer">
-      {categorys.map(category => (
+      {categories.map(category => (
         <CategoryItem key={category.id} category={category} />
       ))}
     </div>

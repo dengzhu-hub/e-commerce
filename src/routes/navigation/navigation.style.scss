@@ -13,7 +13,9 @@
     padding: 25px;
   }
   &-link {
+    
     &__container {
+     
       width: 50%;
       height: 100%;
       display: flex;
@@ -21,6 +23,8 @@
       justify-content: flex-end;
     }
     &__to {
+      font-size: 2rem;
+      font-weight: 300;
       padding: 10px 15px;
       cursor: pointer;
       text-transform: uppercase;

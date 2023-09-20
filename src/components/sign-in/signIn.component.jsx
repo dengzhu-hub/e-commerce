@@ -31,7 +31,7 @@ const SignInForm = () => {
   const signWithGoogle = async () => {
     const { user } = await signInWithGooglePop();
     // console.log(user);
-    await createUserDocumentFromAuth(user);
+    
   };
 
   /**
