@@ -12,7 +12,7 @@ function Navigation() {
   const { isCartOpen } = useContext(CartContext);
   // console.log(currentUser)
   const onSignOutHandler = async () => {
-    await signOutUser();
+     signOutUser();
     setCurrentUser(null);
   };
 

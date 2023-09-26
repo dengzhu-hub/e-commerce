@@ -495,3 +495,67 @@ export const onAuthStateChangedListener =  (callback) => {
 ![image-20230919130848139](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309191308288.png)
 
 signOut api可以取消
+
+##### cart
+
+import svg
+
+````jsx
+import { ReactComponent as ShopIcon } from "../../assets/shopping-bag.svg";
+````
+
+使用icon
+
+```jsx
+  <div className="cart-icon__container" onClick={toggleCartOpen}>
+      <ShopIcon className="icon-img" />
+      <span className="icon-count">{cartCount}</span>
+    </div>
+```
+
+设置onclick，去翻转icon,
+
+首先先定义useContext
+
+```jsx
+import { createContext, useEffect, useState } from "react";
+export const CartContext = createContext({
+  isCartOpen: false,
+  setIsCartOpen: () => {},})
+```
+
+利用hooks将其关联
+
+```jsx
+export const CartProvider = ({ children }) => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+    const value = {
+    isCartOpen,
+    setIsCartOpen,
+    cartItems,
+    addItemToCart,
+    cartCount,
+  };
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+};
+```
+
+然后在icon中使用
+
+```jsx
+  const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext);
+const toggleCartOpen = () => setIsCartOpen(!isCartOpen);
+```
+
+```jsx
+ <div className="cart-icon__container" onClick={toggleCartOpen}>
+      <ShopIcon className="icon-img" />
+      <span className="icon-count">{cartCount}</span>
+    </div>
+```
+
+效果
+
+![image-20230924091550533](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309240915860.png)
+
+![image-20230924091602782](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309240916861.png)
