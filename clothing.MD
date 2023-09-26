@@ -1,5 +1,7 @@
 
 
+
+
 # clothing-shoping project
 
 ---
@@ -559,3 +561,308 @@ const toggleCartOpen = () => setIsCartOpen(!isCartOpen);
 ![image-20230924091550533](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309240915860.png)
 
 ![image-20230924091602782](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309240916861.png)
+
+#### 现在实现点击shop里面的add to cart，将他添加到cart-dropdown
+
+* new checkout-dropdown
+
+  * ```jsx
+      return (
+        <div className="cart-dropdown__container">
+          <div className="cart-dropdown__items">
+            {cartItems.map(item => (
+              <CartItem key={item.id} cartItem={item} />
+            ))}
+          </div>
+          <Button onClick = {checkoutHandler}>GO TO CHECKOUT</Button>
+        </div>
+      );
+    
+    //cart-item UI
+    return (
+        <div className="cart-item__container">
+          <img src={imageUrl} alt={title} />
+          <div  className="item-details">
+            <span className="name">{title}</span>
+            <span className="price">
+              {quantity} x ${price}
+            </span>
+          </div>
+        </div>
+      );
+    ```
+
+* shop 界面
+
+  * ```jsx
+      const { products } = useContext(ProductsContext);
+      return (
+        <div className="products-card__container">
+          {products.map(product => (
+            <ProductCard key={product.id} product={product}></ProductCard>
+          ))}
+        </div>
+      );
+    ```
+
+* peroduct ui
+
+  * ```jsx
+      return (
+        <div className="product-card__container">
+          <img className="product-card__img" src={imageUrl} alt={title} />
+          <div className="product-card__text">
+            <span className="product-card__title">{title}</span>
+            <span className="product-card__price">{price}</span>
+          </div>
+          <Button  buttonType="inverted" onClick={addProductToCart}>Add To Cart</Button>
+        </div>
+      );
+    ```
+
+* 如何实现点击按钮，就完成添加，在cartContext完成
+
+  * 添加默认值
+
+    * ```jsx
+      export const CartContext = createContext({
+        isCartOpen: false,
+        setIsCartOpen: () => {},
+        cartItems: [],
+        addCartItems: () => {},
+      ```
+
+  * 创建主题函数实现
+
+    * ```jsx
+      const addCartItem = (cartItems, productAddTo) => {
+        //find it item contains productToAdd
+        const existingCartItem = cartItems.find(item => item.id === productAddTo.id);
+        console.log(existingCartItem);
+          //我们先寻找，购物车中是否有，添加商品，
+      
+        // if found , increment  quantity
+        if (existingCartItem) {
+          return cartItems.map(item =>
+            item.id === productAddTo.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+            如果有的话我们就，将数量加1，否则就不动
+        }
+        // return new array with modified cart items/ new cart items
+        return [...cartItems, { ...productAddTo, quantity: 1 }];
+          我们就就在购物车创建一件商品
+      };
+      ```
+
+    * ##### 将函数放进useState的set函数
+
+      * ```jsx
+          const addItemToCart = productAddTo => {
+            setCartItems(addCartItem(cartItems, productAddTo));
+          };
+        ```
+
+  * 将useState和context关联
+
+    * ```jsx
+       const value = {
+          isCartOpen,
+          setIsCartOpen,
+          cartItems,
+          addItemToCart,
+          }
+      ```
+
+  * 去引用方法
+
+    * ```jsx
+        const {addItemToCart} = useContext(CartContext);
+        const { title, imageUrl, price } = product;
+        const addProductToCart = () => addItemToCart(product);
+        <Button  buttonType="inverted" onClick={addProductToCart}>Add To Cart</Button>
+      
+      ```
+
+##### 效果
+
+<video src="D:\Video\Captures\React App - Google Chrome 2023-09-26 17-04-45.mp4"></video>
+
+* 实现按钮里面的数字也实时更新，添加几件产品进去，我数字就累加
+
+  * ```jsx
+     cartCount: 0,
+           const [cartCount, setCartCount] = useState(0);
+    ```
+
+  * ```jsx
+      useEffect(() => {
+        const newCartCount = cartItems.reduce(
+          (acc, item) => acc + item.quantity,
+          0
+        );
+        setCartCount(newCartCount);
+      }, [cartItems]);
+    ```
+
+  * ```jsx
+      const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext);
+    
+    <span className="icon-count">{cartCount}</span>
+    
+    ```
+
+<video src="C:\Users\jackdeng\Downloads\无标题视频——使用Clipchamp制作.mp4"></video>
+
+#### checkout page
+
+* checkout 
+
+  * ```jsx
+      const { cartItems, cartTotal } = useContext(CartContext);
+      console.log(cartItems);
+      return (
+        <div className="checkout-container">
+          <div className="checkout-header">
+            <div className="checkout-header__title">
+              <span>Product</span>
+            </div>
+            <div className="checkout-header__title">
+              <span>Description</span>
+            </div>
+            <div className="checkout-header__title">
+              <span>Quantity</span>
+            </div>
+            <div className="checkout-header__title">
+              <span>Price</span>
+            </div>
+            <div className="checkout-header__title">
+              <span>Remove</span>
+            </div>
+          </div>
+          {cartItems.map(cartItem => {
+            return <CheckoutItem cartItem={cartItem} />;
+          })}
+          <span className="total-price">
+            {cartTotal ? `Total: ￡${cartTotal}` : `total: 0`}
+          </span>
+        </div>
+      );
+    ```
+
+* checkout item
+
+  * ```jsx
+      return (
+        <div className="checkout-item__container">
+          <div className="image-box">
+            <img src={imageUrl} alt={`${title}`} />
+          </div>
+          <span className="title">{title}</span> 
+          <span className="quantity-container">
+           <div onClick={removeItemHandler}>
+           <AiOutlineMinusCircle />
+           </div>
+            <span className="value">{quantity}</span>
+           <div onClick={addItemHandler}>
+           <AiOutlinePlusCircle />
+           </div>
+          </span>
+          <span className="price">{price}</span>
+          <span className="remove-button" onClick={clearItemHandler}>
+            &#10005;
+          </span>
+        </div>
+      );
+    ```
+
+  * ![image-20230926174830069](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202309261748416.png)
+
+* 实现点击icon添加quantity或减少，当只剩下1时，再点击就移除
+
+  * addItem,加调用之前写好的
+
+    * ```jsx
+      const addCartItem = (cartItems, productAddTo) => {
+        //find it item contains productToAdd
+        const existingCartItem = cartItems.find(item => item.id === productAddTo.id);
+        console.log(existingCartItem);
+      
+        // if found , increment  quantity
+        if (existingCartItem) {
+          return cartItems.map(item =>
+            item.id === productAddTo.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+        }
+        // return new array with modified cart items/ new cart items
+        return [...cartItems, { ...productAddTo, quantity: 1 }];
+      };
+      ```
+
+  * remove item
+
+    * ```jsx
+      const removeItemCart = (cartItems, productToRemove) => {
+        // find the item to remove
+        const isExistingCartItem = cartItems.find(
+          cartItem => cartItem.id === productToRemove.id
+        );
+        // is the item quantity is 1, remove item.
+        if (isExistingCartItem.quantity === 1) {
+          return cartItems.filter(cartItem => cartItem.id !== productToRemove.id);
+        }
+        // return back the left cartItem
+        return cartItems.map(cartItem =>
+          cartItem.id === productToRemove.id
+            ? { ...cartItem, quantity: cartItem.quantity - 1 }
+            : cartItem
+        );
+      };
+      ```
+
+  * clear item
+
+    * ```jsx
+      const clearCartItem = (cartItems, cartItemToClear) =>
+        cartItems.filter(cartItem => cartItem.id !== cartItemToClear.id);
+      
+      ```
+
+* 应用方法
+
+  * ```jsx
+       const addItemToCart = productAddTo => {
+        setCartItems(addCartItem(cartItems, productAddTo));
+      };
+     const removeItemFromCart = productAddTo => {
+        setCartItems(removeItemCart(cartItems, productAddTo));
+      };
+      const clearItemFromCart = cartItemToClear => {
+        setCartItems(clearCartItem(cartItems, cartItemToClear));
+      };
+    ```
+
+  * ```jsx
+    const clearItemHandler = () => clearItemFromCart(cartItem);
+      const addItemHandler = () => addItemToCart(cartItem);
+      const removeItemHandler = () => removeItemFromCart(cartItem);
+    ```
+
+* total 实现
+
+  * ```jsx
+      useEffect(() => {
+        const newCartTotal = cartItems.reduce(
+          (acc, item) => acc + item.quantity * item.price,
+          0
+        );
+        setCartTotal(newCartTotal);
+      }, [cartItems]);
+    ```
+
+效果
+
+<video src="D:\Video\Captures\React App - Google Chrome 2023-09-26 17-55-18.mp4"></video>
