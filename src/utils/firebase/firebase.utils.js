@@ -11,7 +11,16 @@ import {
   FacebookAuthProvider,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  getFirestore,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -99,7 +108,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
  */
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener =  (callback) => {
+export const onAuthStateChangedListener = callback => {
   onAuthStateChanged(auth, callback);
 };
 /**
@@ -107,5 +116,36 @@ export const onAuthStateChangedListener =  (callback) => {
  * next: callback,
  * error: error callback,
  * complete: complete callback}
- * 
+ *
  */
+
+/**
+ * 添加数据到firebase-store中
+ * @param {string} collectionKey  数据集合的名称，也就是说的collection name
+ * @param {Array} objectToAdd    要添加的数据
+ * @returns {undefined}
+ * @author jackdeng
+ * @private public
+ */
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+  const collectionRef = collection(db, collectionKey);
+  const docBatch = writeBatch(db);
+  objectToAdd.forEach(object => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    docBatch.set(docRef, object);
+  });
+  await docBatch.commit();
+  console.log("done");
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+  const querySnapSHop = await getDocs(q);
+  const categoryMap = querySnapSHop.docs.reduce((acc, docSnapShop) => {
+    const { title, items } = docSnapShop.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+  return categoryMap;
+};

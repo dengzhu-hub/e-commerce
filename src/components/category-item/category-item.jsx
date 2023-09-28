@@ -6,7 +6,7 @@ import "./category-item.scss";
  * @author jackdeng
  */
 const CategoryItem = ({ category }) => {
-  const { imageUrl, title } = category;
+  const { imageUrl, name } = category;
   return (
     <div className="category-container">
       <div
@@ -16,7 +16,7 @@ const CategoryItem = ({ category }) => {
         }}
       ></div>
       <div className="category-body-container">
-        <h1>{title}</h1>
+        <h1>{name}</h1>
         <p>shop cart</p>
       </div>
     </div>
