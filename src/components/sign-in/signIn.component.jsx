@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./signIn.style.scss";
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPE_CLASS} from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
 import { UserContext } from "../../contexts/user.context";
 import { useContext } from "react";
@@ -108,7 +108,7 @@ const SignInForm = () => {
         <div className="buttons-container">
           <Button type="submit"> Sign In</Button>
 
-          <Button type="button" buttonType="google" onClick={signWithGoogle}>
+          <Button type="button" buttonType={BUTTON_TYPE_CLASS.google} onClick={signWithGoogle}>
             <img
               className="sign-in__icon"
               alt="icon"
