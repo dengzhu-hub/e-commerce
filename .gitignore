@@ -25,4 +25,8 @@ yarn-error.log*
 package-lock.json   
 .idea/
 .vscode/
+<<<<<<< HEAD
 src/utils/clasj/
+=======
+src/utils/clasj
+>>>>>>> origin/jack-study-navigation

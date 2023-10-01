@@ -5,7 +5,7 @@ function Home() {
   return (
     <div>
       <Outlet />
-      <Directory categorys={jsonData} />
+      <Directory categories={jsonData} />
     </div>
   );
 }

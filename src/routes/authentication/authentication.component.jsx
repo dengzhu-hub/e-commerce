@@ -1,5 +1,4 @@
 import "./authentication.style.scss";
-import { signWithFaacePop } from "../../utils/firebase/firebase.utils";
 import SignInForm from "../../components/sign-in/signIn.component";
 import SignUpForm from "../../components/sign-up/signUp.component";
 const Authentication = () => {
@@ -12,8 +11,7 @@ const Authentication = () => {
   //     console.log(user);
   //   };
   return (
-    <div>
-      <h1>Log in to your account</h1>
+    <div className="authentication-container">
       <SignInForm />
       <SignUpForm />
     </div>

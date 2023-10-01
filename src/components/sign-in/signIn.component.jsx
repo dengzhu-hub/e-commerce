@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "./signIn.style.scss";
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPE_CLASS} from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
+import { UserContext } from "../../contexts/user.context";
+import { useContext } from "react";
 import {
-  signInWithGooglePop,
+  signInWithGooglePop,  
   createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
@@ -14,8 +16,9 @@ const defaultFormField = {
 
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
-  console.log(formFields);
-  console.log({ ...formFields });
+  // const { setCurrentUser } = useContext(UserContext);
+  // console.log(formFields);
+  // console.log({ ...formFields });
 
   const { email, password } = formFields;
   const resetFormField = () => {
@@ -28,43 +31,60 @@ const SignInForm = () => {
   const signWithGoogle = async () => {
     const { user } = await signInWithGooglePop();
     // console.log(user);
-    await createUserDocumentFromAuth(user);
+    
   };
+
+  /**
+   * submit method
+   * @param {e} 当前点击的对象
+   * @return {undefined} 
+   * @author jackdeng
+   */
   const onHandleSubmit = async e => {
     e.preventDefault();
-
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+      const { user } = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
+      // setCurrentUser(user);
+      // console.log(user)
+  
       /**
        * clear form input
        */
       resetFormField();
-    } catch (err) {
-      if (err.code === "auth/weak-password") {
-        alert("password are too short.");
-      } else if (err.code === "auth/email-already-in-use") {
-        alert("email is already in use");
-      } else {
-        console.log(err);
+    } catch (error) {
+      switch (error.code) {
+        case "auth/user-not-found":
+          alert("👤.user not found, please try again, \u{1F920} ");
+          break;
+        case "auth/wrong-password":
+          alert("🔑.password is incorrect, please try again");
+          break;
+        default:
+          console.log(error);
       }
     }
   };
+
+  /**
+   * 当输入框里的内容改变时，触发
+   * @param {e} 当前操作的对象
+   * @return {html} dom object
+   */
   const onHandleChanged = e => {
-    console.log(e.target);
+    // console.log(e.target);
     const { name, value } = e.target;
-    console.log(name, value);
+    // console.log(name, value);
     setFormFields({ ...formFields, [name]: value });
-    console.log({ [name]: value });
+    // console.log({ [name]: value });
   };
 
   return (
-    <div className="signUp-container">
-      <h2 className="signUp-title">Already have an your account</h2>
-      <span>Sign In with your Email and password.</span>
+    <div className="signIn-container">
+      <h2 className="signIn-title">Already have an your account</h2>
+      <span className="sub-title">Sign In with your Email and password.</span>
       <form action="" onSubmit={onHandleSubmit}>
         <FormInput
           label="email"
@@ -88,11 +108,11 @@ const SignInForm = () => {
         <div className="buttons-container">
           <Button type="submit"> Sign In</Button>
 
-          <Button buttonType="google" onClick={signWithGoogle}>
+          <Button type="button" buttonType={BUTTON_TYPE_CLASS.google} onClick={signWithGoogle}>
             <img
+              className="sign-in__icon"
               alt="icon"
               src="https://ui-cdn.digitalocean.com/registration-next/399776b27f10a89571b17850f82383af2841fa66/static/media/oauth-logo-google.420169f299402ff6bd627eeff16bad0d.svg"
-              class="icon"
             />
             <span className="button-title">Sign In With Google</span>
           </Button>

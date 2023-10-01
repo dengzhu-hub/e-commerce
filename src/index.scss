@@ -10,6 +10,7 @@ html {
   font-size: 62.5%; //1rem = 10px
 }
 body {
+  padding: 1.5rem 3rem;
   margin: 0;
   font-family: "Josefin Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,4 +29,8 @@ a {
 ::selection {
   background-color: $oc-green-8;
   color: $oc-white;
+}
+
+.sub-title {
+  color: $oc-blue-4;
 }

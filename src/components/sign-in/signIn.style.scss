@@ -1,9 +1,9 @@
-.signUp-container {
+.signIn-container {
   display: flex;
   flex-direction: column;
   padding: 10px 0;
-  width: 30%;
-  .signUp-title {
+  width: 40%;
+  .signIn-title {
     margin: 10px 0;
   }
 }
@@ -14,4 +14,9 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 2rem;
+}
+
+.sign-in__icon {
+  background-color: white;
+  padding: 2.5px;
 }
