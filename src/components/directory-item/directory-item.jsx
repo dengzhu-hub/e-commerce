@@ -1,4 +1,8 @@
-import "./directory-item.scss";
+import {
+  BackgroundImage,
+  DirectoryItemBody,
+  DirectoryItemContainer,
+} from "./directory-item.style";
 /**
  *  获取产品的组件
  * @param {Array} 产品信息
@@ -8,18 +12,13 @@ import "./directory-item.scss";
 const DirectoryItem = ({ category }) => {
   const { imageUrl, name } = category;
   return (
-    <div className="directory-item__container">
-      <div
-        className="background-image"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-        }}
-      ></div>
-      <div className="directory-body-container">
+    <DirectoryItemContainer>
+      <BackgroundImage imageUrl={imageUrl}></BackgroundImage>
+      <DirectoryItemBody>
         <h1>{name}</h1>
         <p>shop cart</p>
-      </div>
-    </div>
+      </DirectoryItemBody>
+    </DirectoryItemContainer>
   );
 };
 export default DirectoryItem;

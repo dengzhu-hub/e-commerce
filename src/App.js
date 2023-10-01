@@ -11,11 +11,7 @@ function App() {
 
   return (
     <Routes>
-<<<<<<< HEAD
-      <Route path="/" element={<Navigator />}>
-=======
       <Route path="/" element={<Navigation />}>
->>>>>>> jack-study-navigation
         <Route index element={<Home />}></Route>
         <Route path="shop/*" element={<Shop />}></Route>
         <Route path="auth" element={<Authentication />}></Route>
