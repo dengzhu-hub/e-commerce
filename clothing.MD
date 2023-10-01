@@ -577,7 +577,7 @@ const toggleCartOpen = () => setIsCartOpen(!isCartOpen);
           <Button onClick = {checkoutHandler}>GO TO CHECKOUT</Button>
         </div>
       );
-    
+      
     //cart-item UI
     return (
         <div className="cart-item__container">
@@ -682,7 +682,7 @@ const toggleCartOpen = () => setIsCartOpen(!isCartOpen);
         const { title, imageUrl, price } = product;
         const addProductToCart = () => addItemToCart(product);
         <Button  buttonType="inverted" onClick={addProductToCart}>Add To Cart</Button>
-      
+        
       ```
 
 ##### 效果
@@ -708,7 +708,7 @@ const toggleCartOpen = () => setIsCartOpen(!isCartOpen);
 
   * ```jsx
       const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext);
-    
+      
     <span className="icon-count">{cartCount}</span>
     
     ```
@@ -866,3 +866,41 @@ const toggleCartOpen = () => setIsCartOpen(!isCartOpen);
 效果
 
 <video src="D:\Video\Captures\React App - Google Chrome 2023-09-26 17-55-18.mp4"></video>
+
+### STYLE COMPONENTS
+
+```JSX
+const Button = styled.a<{ $primary?: boolean; }>`
+  --accent-color: white;
+
+
+  /* This renders the buttons above... Edit me! */
+  background: transparent;
+  border-radius: 3px;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  display: inline-block;
+  margin: 0.5rem 1rem;
+  padding: 0.5rem 0;
+  transition: all 200ms ease-in-out;
+  width: 11rem;
+
+
+  &:hover {
+    filter: brightness(0.85);
+  }
+
+
+  &:active {
+    filter: brightness(1);
+  }
+
+
+  /* The GitHub button is a primary button
+   * edit this to target it specifically! */
+  ${props => props.$primary && css`
+    background: var(--accent-color);
+    color: black;
+  `}
+```
+
