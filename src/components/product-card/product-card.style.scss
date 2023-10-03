@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 5rem;
     height: 350px;
     align-items: center;
     position: relative;
@@ -41,13 +42,7 @@
       font-size: 18px;
       align-items: center;
   
-      .product-card__title {
-       
-      }
-  
-      .product-card__price {
-       
-      }
+     
     }
   }
   

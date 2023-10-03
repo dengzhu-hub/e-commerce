@@ -1,4 +1,5 @@
 import styled from "styled-components";
+<<<<<<< HEAD
 export const BackgroundImage = styled.div`
   width: 100%;
   height: 100%;
@@ -10,6 +11,40 @@ export const DirectoryItemBody = styled.div`
   padding: 0 25px;
   display: flex;
   flex-direction: column;
+=======
+import oc from 'open-color'
+export const BackgroundImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background-image: ${props => `url(${props.imageUrl})`};
+  background-size: cover;
+  background-position: center;
+`;
+export const DirectoryItemContainer = styled.div`
+  min-width: 30%;
+    height: 240px;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    margin: 0 7.5px 15px;
+    overflow: hidden;
+
+  &:hover {
+    cursor: pointer;
+
+    & ${BackgroundImage} {
+      transform: scale(1.1);
+      transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+    }`;
+
+export const DirectoryItems = styled.div`
+  padding: 6px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+>>>>>>> style-components
   align-items: center;
   justify-content: center;
   border: 1px solid black;
@@ -26,6 +61,7 @@ export const DirectoryItemBody = styled.div`
 
   p {
     font-weight: lighter;
+<<<<<<< HEAD
     font-size: 16px;
   }
 `;
@@ -62,5 +98,9 @@ export const DirectoryItemContainer = styled.div`
 
   &:last-child {
     margin-left: 7.5px;
+=======
+    font-size: 20px;
+    color: ${oc.gray[6]};
+>>>>>>> style-components
   }
 `;
