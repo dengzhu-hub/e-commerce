@@ -2,9 +2,15 @@
   display: flex;
   flex-direction: column;
   padding: 10px 0;
+  gap: 8px;
   width: 40%;
   .signIn-title {
     margin: 10px 0;
+    font-size: 32px;
+  }
+  .sub-title{
+    font-size: 18px;
+    font-weight: bold;
   }
 }
 

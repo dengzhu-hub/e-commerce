@@ -1,12 +1,9 @@
 import { useState } from "react";
-import "./signIn.style.scss";
-import Button, {BUTTON_TYPE_CLASS} from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASS } from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
-import { UserContext } from "../../contexts/user.context";
-import { useContext } from "react";
+import { SignInContainer, SignInIcon, SignInTitle, SubTitle, ButtonContainer } from "./signIn.style";
 import {
-  signInWithGooglePop,  
-  createUserDocumentFromAuth,
+  signInWithGooglePop,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 const defaultFormField = {
@@ -31,13 +28,12 @@ const SignInForm = () => {
   const signWithGoogle = async () => {
     const { user } = await signInWithGooglePop();
     // console.log(user);
-    
   };
 
   /**
    * submit method
    * @param {e} 当前点击的对象
-   * @return {undefined} 
+   * @return {undefined}
    * @author jackdeng
    */
   const onHandleSubmit = async e => {
@@ -49,7 +45,7 @@ const SignInForm = () => {
       );
       // setCurrentUser(user);
       // console.log(user)
-  
+
       /**
        * clear form input
        */
@@ -82,13 +78,12 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="signIn-container">
-      <h2 className="signIn-title">Already have an your account</h2>
-      <span className="sub-title">Sign In with your Email and password.</span>
+    <SignInContainer>
+      <SignInTitle>Already have an your account</SignInTitle>
+      <SubTitle>Sign In with your Email and password.</SubTitle>
       <form action="" onSubmit={onHandleSubmit}>
         <FormInput
-          label="email"
-          id="email"
+          label="Email"
           type="email"
           name="email"
           onChange={onHandleChanged}
@@ -97,18 +92,21 @@ const SignInForm = () => {
         />
 
         <FormInput
-          label="password"
-          id="password"
+          label="Password"
           type="password"
           name="password"
           onChange={onHandleChanged}
           required
           value={password}
         />
-        <div className="buttons-container">
+        <ButtonContainer>
           <Button type="submit"> Sign In</Button>
 
-          <Button type="button" buttonType={BUTTON_TYPE_CLASS.google} onClick={signWithGoogle}>
+          <Button
+            type="button"
+            buttonType={BUTTON_TYPE_CLASS.google}
+            onClick={signWithGoogle}
+          >
             <img
               className="sign-in__icon"
               alt="icon"
@@ -116,9 +114,9 @@ const SignInForm = () => {
             />
             <span className="button-title">Sign In With Google</span>
           </Button>
-        </div>
+        </ButtonContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 

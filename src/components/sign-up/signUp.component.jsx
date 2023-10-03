@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./signUp.style.scss";
-import Button from "../../components/button/button.component";
+import {SignUpContainer, SubTitle, SignUpTitle} from './signUp.style';
+import Button, { BUTTON_TYPE_CLASS } from "../../components/button/button.component";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -66,9 +66,9 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="signUp-container">
-      <h2 className="signUp-title">Create your account</h2>
-      <span className="sub-title">Sign up with your Email.</span>
+    <SignUpContainer>
+      <SignUpTitle>Create your account</SignUpTitle>
+      <SubTitle>Sign up with your Email.</SubTitle>
       <form action="" onSubmit={onHandleSubmit}>
         <FormInput
           label="displayName"
@@ -111,7 +111,7 @@ const SignUpForm = () => {
         />
         <Button type="submit"> Sign Up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 
