@@ -986,3 +986,97 @@ const Button = styled.a<{ $primary?: boolean; }>`
 ```
 
 >>>>>>> origin/jack-study-navigation
+
+
+
+# useReducer
+
+`useReducer` is a React Hook that lets you add a [reducer](https://react.dev/learn/extracting-state-logic-into-a-reducer) to your component.
+
+```jsx
+const [state, dispatch] = useReducer(reducer, initialArg, init?)
+```
+
+#### Parameters 
+
+- `reducer`: The reducer function that specifies how the state gets updated. It must be pure, should take the state and action as arguments, and should return the next state. State and action can be of any types.
+- `initialArg`: The value from which the initial state is calculated. It can be a value of any type. How the initial state is calculated from it depends on the next `init` argument.
+- **optional** `init`: The initializer function that should return the initial state. If it’s not specified, the initial state is set to `initialArg`. Otherwise, the initial state is set to the result of calling `init(initialArg)`.
+
+#### Returns 
+
+`useReducer` returns an array with exactly two values:
+
+1. The current state. During the first render, it’s set to `init(initialArg)` or `initialArg` (if there’s no `init`).
+2. The [`dispatch` function](https://react.dev/reference/react/useReducer#dispatch) that lets you update the state to a different value and trigger a re-render.
+
+## Comparing `useState` and `useReducer` 
+
+Reducers are not without downsides! Here’s a few ways you can compare them:
+
+- **Code size:** Generally, with `useState` you have to write less code upfront. With `useReducer`, you have to write both a reducer function *and* dispatch actions. However, `useReducer` can help cut down on the code if many event handlers modify state in a similar way.
+- **Readability:** `useState` is very easy to read when the state updates are simple. When they get more complex, they can bloat your component’s code and make it difficult to scan. In this case, `useReducer` lets you cleanly separate the *how* of update logic from the *what happened* of event handlers.
+- **Debugging:** When you have a bug with `useState`, it can be difficult to tell *where* the state was set incorrectly, and *why*. With `useReducer`, you can add a console log into your reducer to see every state update, and *why* it happened (due to which `action`). If each `action` is correct, you’ll know that the mistake is in the reducer logic itself. However, you have to step through more code than with `useState`.
+- **Testing:** A reducer is a pure function that doesn’t depend on your component. This means that you can export and test it separately in isolation. While generally it’s best to test components in a more realistic environment, for complex state update logic it can be useful to assert that your reducer returns a particular state for a particular initial state and action.
+- **Personal preference:** Some people like reducers, others don’t. That’s okay. It’s a matter of preference. You can always convert between `useState` and `useReducer` back and forth: they are equivalent!
+
+We recommend using a reducer if you often encounter bugs due to incorrect state updates in some component, and want to introduce more structure to its code. You don’t have to use reducers for everything: feel free to mix and match! You can even `useState` and `useReducer` in the same component.
+
+![image-20231004110918140](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310041109514.png)
+
+![image-20231004193234982](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310041932383.png)
+
+![image-20231005110213818](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310051102105.png)
+
+e.g
+
+```jsx
+function handleClick() {
+  dispatch({ type: 'incremented_age' });
+```
+
+
+
+```jsx
+import { useReducer } from 'react';
+
+function reducer(state, action) {
+  if (action.type === 'incremented_age') {
+    return {
+      age: state.age + 1
+    };
+  }
+  throw Error('Unknown action.');
+}
+
+export default function Counter() {
+  const [state, dispatch] = useReducer(reducer, { age: 42 });
+
+  return (
+    <>
+      <button onClick={() => {
+        dispatch({ type: 'incremented_age' })
+      }}>
+        Increment age
+      </button>
+      <p>Hello! You are {state.age}.</p>
+    </>
+  );
+}
+
+```
+
+ 
+
+| avoid (mutates the array) | prefer (returns a new array)        |                                                              |
+| ------------------------- | ----------------------------------- | ------------------------------------------------------------ |
+| adding                    | `push`, `unshift`                   | `concat`, `[...arr]` spread syntax ([example](https://react.dev/learn/updating-arrays-in-state#adding-to-an-array)) |
+| removing                  | `pop`, `shift`, `splice`            | `filter`, `slice` ([example](https://react.dev/learn/updating-arrays-in-state#removing-from-an-array)) |
+| replacing                 | `splice`, `arr[i] = ...` assignment | `map` ([example](https://react.dev/learn/updating-arrays-in-state#replacing-items-in-an-array)) |
+| sorting                   | `reverse`, `sort`                   | copy the array first ([example](https://react.dev/learn/updating-arrays-in-state#making-other-changes-to-an-array)) |
+
+![image-20231006135057983](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310061350746.png)
+
+![image-20231006135151115](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310061351697.png)
+
+![image-20231006135220657](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310061352057.png)

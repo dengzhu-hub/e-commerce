@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useReducer } from "react";
 
 /**
  * 将物品添加到购物车中去
@@ -47,7 +47,7 @@ const clearCartItem = (cartItems, cartItemToClear) =>
  * @type {React.Context<{setIsCartOpen: setIsCartOpen, cartCount: number, addCartItems: addCartItems, cartItems: *[], isCartOpen: boolean, removeItemFromCart: removeItemFromCart}>}
  */
 export const CartContext = createContext({
-  isCartOpen: false,
+  isCartOpen: true,
   setIsCartOpen: () => {},
   cartItems: [],
   addCartItems: () => {},
@@ -56,6 +56,27 @@ export const CartContext = createContext({
   cartCount: 0,
   cartTotal: 0,
 });
+const inititalValue = {
+  cartCount: 0,
+  cartTotal: 0,
+  cartItems: [],
+  isCartOpen: true,
+};
+// Reducer
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "SET_CART_ITEMS": {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    default:
+      throw new Error(`unhandled type of ${type} in cartRdeucer`);
+  }
+};
+
 /**
  * 提供contextProvider
  * @param children
@@ -63,34 +84,35 @@ export const CartContext = createContext({
  * @constructor
  */
 export const CartProvider = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [cartCount, setCartCount] = useState(0);
-  const [cartTotal, setCartTotal] = useState(0);
-  /**
-   * 用于显示，total count，显示在icon内部
-   */
-  useEffect(() => {
-    const newCartCount = cartItems.reduce(
+  const [{ cartItems, cartCount, cartTotal, isCartOpen }, dispatch] =
+    useReducer(cartReducer, inititalValue);
+
+  const updateCartItmeReudcer = newCartItmes => {
+    const newCartCount = newCartItmes.reduce(
       (acc, item) => acc + item.quantity,
       0
     );
-    setCartCount(newCartCount);
-  }, [cartItems]);
-  useEffect(() => {
-    const newCartTotal = cartItems.reduce(
+    const newCartTotal = newCartItmes.reduce(
       (acc, item) => acc + item.quantity * item.price,
       0
     );
-    setCartTotal(newCartTotal);
-  }, [cartItems]);
+    dispatch({
+      type: "SET_CART_ITEMS",
+      payload: {
+        cartItems: newCartItmes,
+        cartCount: newCartCount,
+        cartTotal: newCartTotal,
+      },
+    });
+  };
 
   /**
    * 实现，cartCount的功能，添加产品
    * @param productAddTo
    */
   const addItemToCart = productAddTo => {
-    setCartItems(addCartItem(cartItems, productAddTo));
+    const newCartItems = addCartItem(cartItems, productAddTo);
+    updateCartItmeReudcer(newCartItems);
   };
 
   /**
@@ -98,15 +120,31 @@ export const CartProvider = ({ children }) => {
    * @param productAddTo
    */
   const removeItemFromCart = productAddTo => {
-    setCartItems(removeItemCart(cartItems, productAddTo));
+    const newCartItems = removeItemCart(cartItems, productAddTo);
+    updateCartItmeReudcer(newCartItems);
   };
   const clearItemFromCart = cartItemToClear => {
-    setCartItems(clearCartItem(cartItems, cartItemToClear));
+    const newCartItems = clearCartItem(cartItems, cartItemToClear);
+    updateCartItmeReudcer(newCartItems);
   };
+
+  /**
+     *generate newCartTotal
+
+     generate newCartCount
+
+
+     dispatch new action with payload {
+      newCartItem
+      newCartTotal
+      newCartCount
+     }
+     */
+
   /* 与useState关联起来*/
   const value = {
     isCartOpen,
-    setIsCartOpen,
+    setIsCartOpen: () => {},
     cartItems,
     addItemToCart,
     removeItemFromCart,

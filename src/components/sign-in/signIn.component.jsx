@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button, { BUTTON_TYPE_CLASS } from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
-import { SignInContainer, SignInIcon, SignInTitle, SubTitle, ButtonContainer } from "./signIn.style";
+import { SignInContainer, SignInTitle, SubTitle, ButtonContainer } from "./signIn.style";
 import {
   signInWithGooglePop,
   signInAuthUserWithEmailAndPassword,
@@ -27,7 +27,7 @@ const SignInForm = () => {
    */
   const signWithGoogle = async () => {
     const { user } = await signInWithGooglePop();
-    // console.log(user);
+    console.log(user);
   };
 
   /**
@@ -43,6 +43,7 @@ const SignInForm = () => {
         email,
         password
       );
+      console.log(user);
       // setCurrentUser(user);
       // console.log(user)
 
