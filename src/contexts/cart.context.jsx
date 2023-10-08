@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-
+import { createAction } from "../utils/reducer/createAction";
 /**
  * 将物品添加到购物车中去
  * @param cartItems  购物车当中已经有的产品
@@ -47,7 +47,7 @@ const clearCartItem = (cartItems, cartItemToClear) =>
  * @type {React.Context<{setIsCartOpen: setIsCartOpen, cartCount: number, addCartItems: addCartItems, cartItems: *[], isCartOpen: boolean, removeItemFromCart: removeItemFromCart}>}
  */
 export const CartContext = createContext({
-  isCartOpen: true,
+  isCartOpen: false,
   setIsCartOpen: () => {},
   cartItems: [],
   addCartItems: () => {},
@@ -56,20 +56,30 @@ export const CartContext = createContext({
   cartCount: 0,
   cartTotal: 0,
 });
-const inititalValue = {
+const INITIALVALUE = {
   cartCount: 0,
   cartTotal: 0,
   cartItems: [],
-  isCartOpen: true,
+  isCartOpen: false,
+};
+export const ACTIONS = {
+  SET_CART_ITEMS: "set-cart-items",
+  TOOGLE_CART_OPEN: "toogle-cart-open",
 };
 // Reducer
 const cartReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
-    case "SET_CART_ITEMS": {
+    case ACTIONS.SET_CART_ITEMS: {
       return {
         ...state,
         ...payload,
+      };
+    }
+    case ACTIONS.TOOGLE_CART_OPEN: {
+      return {
+        ...state,
+        isCartOpen: payload,
       };
     }
     default:
@@ -85,25 +95,24 @@ const cartReducer = (state, action) => {
  */
 export const CartProvider = ({ children }) => {
   const [{ cartItems, cartCount, cartTotal, isCartOpen }, dispatch] =
-    useReducer(cartReducer, inititalValue);
+    useReducer(cartReducer, INITIALVALUE);
 
-  const updateCartItmeReudcer = newCartItmes => {
-    const newCartCount = newCartItmes.reduce(
+  const updateCartItmeReudcer = newCartItems => {
+    const newCartCount = newCartItems.reduce(
       (acc, item) => acc + item.quantity,
       0
     );
-    const newCartTotal = newCartItmes.reduce(
+    const newCartTotal = newCartItems.reduce(
       (acc, item) => acc + item.quantity * item.price,
       0
     );
-    dispatch({
-      type: "SET_CART_ITEMS",
-      payload: {
-        cartItems: newCartItmes,
+    dispatch(
+      createAction(ACTIONS.SET_CART_ITEMS, {
+        cartItems: newCartItems,
         cartCount: newCartCount,
         cartTotal: newCartTotal,
-      },
-    });
+      })
+    );
   };
 
   /**
@@ -127,7 +136,12 @@ export const CartProvider = ({ children }) => {
     const newCartItems = clearCartItem(cartItems, cartItemToClear);
     updateCartItmeReudcer(newCartItems);
   };
-
+  const setIsCartOpen = bool => {
+    dispatch({
+      type: ACTIONS.TOOGLE_CART_OPEN,
+      payload: bool,
+    });
+  };
   /**
      *generate newCartTotal
 
@@ -144,7 +158,7 @@ export const CartProvider = ({ children }) => {
   /* 与useState关联起来*/
   const value = {
     isCartOpen,
-    setIsCartOpen: () => {},
+    setIsCartOpen,
     cartItems,
     addItemToCart,
     removeItemFromCart,

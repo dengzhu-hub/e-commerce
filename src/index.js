@@ -4,10 +4,12 @@ import { createRoot } from "react-dom/client";
 import { UserProvider } from "./contexts/user.context";
 import { CartProvider } from "./contexts/cart.context";
 import "./index.scss";
+import App from './App'
 // import "./App.css";
 import { TodoReducer } from "./utils/clasj";
 import reportWebVitals from "./reportWebVitals";
 import { ProductsProvider } from "./contexts/products.context";
+
 
 const root = createRoot(document.getElementById("root"));
 root.render(
@@ -16,7 +18,7 @@ root.render(
       <UserProvider>
         <ProductsProvider>
           <CartProvider>
-            <TodoReducer />
+            <App />
           </CartProvider>
         </ProductsProvider>
       </UserProvider>
