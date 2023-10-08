@@ -9,9 +9,12 @@ import {
 } from "./cart-dropdown.style";
 import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
+import { ProductsContext } from "../../contexts/products.context";
 
 const CartDropdown = () => {
   const { cartItems } = useContext(CartContext);
+  const { categoriesMap } = useContext(ProductsContext);
+  console.log(categoriesMap);
   const navigate = useNavigate();
   const checkoutHandler = () => {
     navigate("/checkout");

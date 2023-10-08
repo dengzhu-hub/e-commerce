@@ -1066,7 +1066,13 @@ export default function Counter() {
 
 ```
 
- 
+ Updating arrays without mutation 
+
+In JavaScript, arrays are just another kind of object. [Like with objects](https://react.dev/learn/updating-objects-in-state), **you should treat arrays in React state as read-only.** This means that you shouldn’t reassign items inside an array like `arr[0] = 'bird'`, and you also shouldn’t use methods that mutate the array, such as `push()` and `pop()`.
+
+Instead, every time you want to update an array, you’ll want to pass a *new* array to your state setting function. To do that, you can create a new array from the original array in your state by calling its non-mutating methods like `filter()` and `map()`. Then you can set your state to the resulting new array.
+
+Here is a reference table of common array operations. When dealing with arrays inside React state, you will need to avoid the methods in the left column, and instead prefer the methods in the right column:
 
 | avoid (mutates the array) | prefer (returns a new array)        |                                                              |
 | ------------------------- | ----------------------------------- | ------------------------------------------------------------ |
@@ -1080,3 +1086,7 @@ export default function Counter() {
 ![image-20231006135151115](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310061351697.png)
 
 ![image-20231006135220657](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310061352057.png)
+
+![image-20231008150149755](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310081502290.png)
+
+### accessbility and flow of data
