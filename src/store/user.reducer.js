@@ -2,12 +2,12 @@ const initialValue = {
   currentUser: null,
 };
 const USER_ACTION_TYPE = {
-  SET_CURRENT_USER: "SET_CURRENT_USER",
-  increment: "increment",
+  SET_CURRENT_USER: 'SET_CURRENT_USER',
+  increment: 'increment',
 };
 
-const userReducer = (state, action) => {
-  console.log("dispatched");
+ export const userReducer = (state = initialValue, action) => {
+  console.log('dispatched');
   console.log(action);
   const { type, payload } = action;
   switch (type) {
@@ -16,11 +16,11 @@ const userReducer = (state, action) => {
         ...state,
         currentUser: payload,
       };
-    case "increment":
+    case 'increment':
       return {
         currentUser: state.currentUser + 1,
       };
     default:
-      throw new Error("Invalid action type");
+      throw new Error('Invalid action type');
   }
 };

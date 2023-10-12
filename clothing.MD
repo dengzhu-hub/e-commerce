@@ -1089,4 +1089,92 @@ Here is a reference table of common array operations. When dealing with arrays i
 
 ![image-20231008150149755](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310081502290.png)
 
+![image-20231009103421967](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310091034106.png)
+
+![image-20231009103500278](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310091035353.png)
+
+![image-20231009103532838](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310091035129.png)
+
 ### accessbility and flow of data
+
+pasas every single reducer
+
+like this:
+
+>
+>
+>```jsx
+>const initialValue = {
+>  currentUser: null,
+>};
+>const USER_ACTION_TYPE = {
+>  SET_CURRENT_USER: "SET_CURRENT_USER",
+>  increment: "increment",
+>};
+>
+>export const userReducer = (state = USER_ACTION_TYPE, action) => {
+>  const { type, payload } = action;
+>  switch (type) {
+>    case USER_ACTION_TYPE.SET_CURRENT_USER:
+>      return {
+>        ...state,
+>        currentUser: payload,
+>      };
+>    case "increment":
+>      return {
+>        currentUser: state.currentUser + 1,
+>      };
+>    default:
+>      return state;
+>  }
+>};
+>
+>```
+>
+>root-reducer.jsx
+>
+>```jsx
+>import { combineReducers } from "redux";
+>import { userReducer } from "./user.reducer";
+>export const rootReducer = combineReducers({
+>  user: userReducer,
+>});
+>
+>```
+>
+>this is redux how to work.
+
+store
+
+```jsx
+import { compose, createStore, applyMiddleware } from "redux";
+import logger from "redux-logger";
+import { rootReducer } from "./root-reducer";
+const midlewares = [logger];
+const composeMiddleware = compose(applyMiddleware(...midlewares));
+//rooter-reducer
+export const store = createStore(rootReducer, undefined, midlewares);
+
+```
+
+将root-reducer导入到store，利用createStore创建一个store
+
+index.js
+
+```jsx
+import { Provider } from "react-redux";
+<Provider store={store}>
+      <BrowserRouter>
+        <UserProvider>
+          <ProductsProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </ProductsProvider>
+        </UserProvider>
+      </BrowserRouter>
+    </Provider>
+```
+
+我们在index.js使用react-redux，将redux与我们的app关联起来
+

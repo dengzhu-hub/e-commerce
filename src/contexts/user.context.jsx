@@ -41,7 +41,7 @@ export const UserProvider = ({ children }) => {
   console.log(currentUser);
   const setCurrentUser = user => {
     dispatch(createAction(USER_ACTION_TYPE.SET_CURRENT_USER, user));
-  };
+  };  
   const value = { currentUser, setCurrentUser };
 
   useEffect(() => {
