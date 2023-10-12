@@ -1178,3 +1178,63 @@ import { Provider } from "react-redux";
 
 我们在index.js使用react-redux，将redux与我们的app关联起来
 
+将userContext转移过来
+
+```jsx
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener(user => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+
+      dispatch(setCurrentUser(user));
+    });
+
+    return unsubscribe;
+  }, [dispatch]);
+```
+
+这里我们用到了react-redux hook，是我们可以像使用react hook useReducer那样分发
+
+```jsx
+import { useDispatch } from 'react-redux';
+  const dispatch = useDispatch();
+```
+
+看效果
+
+![image-20231012112856257](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121128674.png)
+
+这个效果来之不易，至少4天。值得感慨啊
+
+数据获取数据转换分离出来
+
+```jsx
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories');
+  const q = query(collectionRef);
+  const querySnapSHop = await getDocs(q);
+  return querySnapSHop.docs.map(doc => doc.data());
+
+  // .reduce((acc, docSnapShop) => {
+  //   const { title, items } = docSnapShop.data();
+  //   acc[title.toLowerCase()] = items;
+  //   return acc;
+  // }, {});
+  // return categoryMap;
+};
+
+```
+
+我们将redux函数分离出来，到selector中
+
+```jsx
+export const selectCategoriesMap = state =>
+  state.category.categories.reduce((acc, category) => {
+    const { title, items } = category;
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+
+```
+
