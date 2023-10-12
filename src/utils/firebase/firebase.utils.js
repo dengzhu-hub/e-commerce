@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
   getAuth,
   signInWithRedirect,
@@ -10,7 +10,7 @@ import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
   onAuthStateChanged,
-} from "firebase/auth";
+} from 'firebase/auth';
 import {
   doc,
   getDoc,
@@ -20,7 +20,7 @@ import {
   writeBatch,
   query,
   getDocs,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,12 +29,12 @@ import {
  * @type {{storageBucket: string, apiKey: string, messagingSenderId: string, appId: string, projectId: string, authDomain: string}}
  */
 const firebaseConfig = {
-  apiKey: "AIzaSyB4W9dqjQnuA8lrgOit0kFTn9VxOb6f9YA",
-  authDomain: "clothing-app-study.firebaseapp.com",
-  projectId: "clothing-app-study",
-  storageBucket: "clothing-app-study.appspot.com",
-  messagingSenderId: "910303724015",
-  appId: "1:910303724015:web:e38de8de79cbd8c633f61a",
+  apiKey: 'AIzaSyB4W9dqjQnuA8lrgOit0kFTn9VxOb6f9YA',
+  authDomain: 'clothing-app-study.firebaseapp.com',
+  projectId: 'clothing-app-study',
+  storageBucket: 'clothing-app-study.appspot.com',
+  messagingSenderId: '910303724015',
+  appId: '1:910303724015:web:e38de8de79cbd8c633f61a',
 };
 
 /**
@@ -45,10 +45,10 @@ const firebaseApp = initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
 const facebookAuthProvider = new FacebookAuthProvider();
 facebookAuthProvider.setCustomParameters({
-  prompt: "select_account",
+  prompt: 'select_account',
 });
 googleProvider.setCustomParameters({
-  prompt: "select_account",
+  prompt: 'select_account',
 });
 export const auth = getAuth();
 export const signInWithGooglePop = () => signInWithPopup(auth, googleProvider);
@@ -63,7 +63,7 @@ export const createUserDocumentFromAuth = async (
   additionalInfo = {}
 ) => {
   if (!userAuth) return;
-  const userDocRef = doc(db, "user", userAuth.uid);
+  const userDocRef = doc(db, 'user', userAuth.uid);
   // console.log(userDocRef);
   const userSnapShot = await getDoc(userDocRef);
   // console.log(userSnapShot);
@@ -135,17 +135,19 @@ export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
     docBatch.set(docRef, object);
   });
   await docBatch.commit();
-  console.log("done");
+  console.log('done');
 };
 
 export const getCategoriesAndDocuments = async () => {
-  const collectionRef = collection(db, "categories");
+  const collectionRef = collection(db, 'categories');
   const q = query(collectionRef);
   const querySnapSHop = await getDocs(q);
-  const categoryMap = querySnapSHop.docs.reduce((acc, docSnapShop) => {
-    const { title, items } = docSnapShop.data();
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
-  return categoryMap;
+  return querySnapSHop.docs.map(doc => doc.data());
+
+  // .reduce((acc, docSnapShop) => {
+  //   const { title, items } = docSnapShop.data();
+  //   acc[title.toLowerCase()] = items;
+  //   return acc;
+  // }, {});
+  // return categoryMap;
 };

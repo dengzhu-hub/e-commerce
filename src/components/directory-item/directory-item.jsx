@@ -19,7 +19,7 @@ const DirectoryItem = ({ category }) => {
   };
   return (
     <DirectoryItemContainer onClick={onNavigateHandler}>
-      <BackgroundImage imageUrl={imageUrl}></BackgroundImage>
+      <BackgroundImage imageurl={imageUrl}></BackgroundImage>
       <DirectoryItems>
         <h1>{name}</h1>
         <p>shop cart</p>

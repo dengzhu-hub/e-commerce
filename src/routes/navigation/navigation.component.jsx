@@ -1,21 +1,18 @@
-import { Fragment, useContext } from "react";
-import { Outlet } from "react-router-dom";
-import { ReactComponent as CrowLogo } from "../../assets/crown.svg";
-import CartIcon from "../../components/cart-icon/cart-icon.component";
-import { Nav, Logo, NavLinks, NavLink } from "./navigation.style";
-import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
-import { UserContext } from "../../contexts/user.context";
-import { signOutUser } from "../../utils/firebase/firebase.utils";
-import { CartContext } from "../../contexts/cart.context";
+import { Fragment, useContext } from 'react';
+import { Outlet } from 'react-router-dom';
+import { ReactComponent as CrowLogo } from '../../assets/crown.svg';
+import CartIcon from '../../components/cart-icon/cart-icon.component';
+import { Nav, Logo, NavLinks, NavLink } from './navigation.style';
+import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
+import { useSelector } from 'react-redux';
+import { signOutUser } from '../../utils/firebase/firebase.utils';
+import { CartContext } from '../../contexts/cart.context';
+import { selectCurrentUser } from '../../store/user/user.selector';
 
 function Navigation() {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const currentUser = useSelector(selectCurrentUser);
   const { isCartOpen } = useContext(CartContext);
-  // console.log(currentUser)
-  const onSignOutHandler = async () => {
-    signOutUser();
-    setCurrentUser(null);
-  };
+  console.log(currentUser);
 
   return (
     <Fragment>
@@ -27,7 +24,7 @@ function Navigation() {
         <NavLinks>
           <NavLink to="/shop">SHOP</NavLink>
           {currentUser ? (
-            <NavLink as="span" onClick={onSignOutHandler}>
+            <NavLink as="span" onClick={signOutUser}>
               Sign Out
             </NavLink>
           ) : (

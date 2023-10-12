@@ -6,7 +6,6 @@ import {
   CategoryPreviewItem,
 } from "./category-preview.style";
 import React from "react";
-
 const CategoryPreview = ({ title, products }) => {
   return (
     <CategoryPreviewContainer>

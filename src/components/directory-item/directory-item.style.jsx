@@ -3,7 +3,7 @@ import oc from 'open-color'
 export const BackgroundImage = styled.div`
   width: 100%;
   height: 100%;
-  background-image: ${props => `url(${props.imageUrl})`};
+  background-image: ${props => `url(${props.imageurl})`};
   background-size: cover;
   background-position: center;
 `;
