@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 
-import { CartProvider } from './contexts/cart.context';
 import './index.scss';
 import App from './App';
 // import "./App.css";
@@ -17,9 +16,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <App />
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

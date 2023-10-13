@@ -1238,3 +1238,73 @@ export const selectCategoriesMap = state =>
 
 ```
 
+我们在不同地方console，看谁先执行
+
+```jsx
+const Category = () => {
+  console.log('render/rendering category component'); 
+  const categoriesMap = useSelector(selectCategoriesMap);
+  const { category } = useParams();
+  const [products, setProducts] = useState([category]);
+  useEffect(() => {
+    console.log('effect fired call setProduct')
+    setProducts(categoriesMap[category]);
+  }, [category, categoriesMap]);
+
+```
+
+```jsx
+export const selectCategoriesMap = state => {
+  console.log('selector fired');
+  return state.category.categories.reduce((acc, category) => {
+    const { title, items } = category;
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+};
+
+```
+
+![image-20231012153257076](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121532191.png)
+
+![image-20231012153322222](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121533295.png)
+
+middleware
+
+![image-20231012162052094](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121620913.png)
+
+![image-20231012162113598](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121621820.png)
+
+![image-20231012162129340](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121621398.png)
+
+我们可以看到只有selector 被调用，category才有数据
+
+```jsx
+export const selectCategoriesMap = state => {
+  console.log('selector fired');
+  return state.category.categories.reduce((acc, category) => {
+    const { title, items } = category;
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+};
+
+```
+
+我们可以看到。这里reduce，后面的参数是一个{}，尽管控制她接过没变但是他还是render很多次
+
+![image-20231012162548791](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121625914.png)
+
+因为这个对象，内存地址不一样，尽管是{}
+
+怎么修复这种不必要的渲染呢
+
+```jsx
+npm i reselect
+```
+
+当我们退出登陆时，只有selector 1 render
+
+![image-20231012171443932](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121714327.png)
+
+<video src="D:\Video\Captures\React App - Google Chrome 2023-10-12 17-17-16.mp4"></video>

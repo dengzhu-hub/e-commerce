@@ -6,12 +6,12 @@ import { Nav, Logo, NavLinks, NavLink } from './navigation.style';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 import { useSelector } from 'react-redux';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
-import { CartContext } from '../../contexts/cart.context';
 import { selectCurrentUser } from '../../store/user/user.selector';
+import { selectCartIsOpen } from '../../store/cart/cart.selector';
 
 function Navigation() {
   const currentUser = useSelector(selectCurrentUser);
-  const { isCartOpen } = useContext(CartContext);
+  const isCartOpen = useSelector(selectCartIsOpen);
   console.log(currentUser);
 
   return (

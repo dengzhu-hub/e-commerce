@@ -1,23 +1,26 @@
-import { useContext } from "react";
-import { BUTTON_TYPE_CLASS } from "../button/button.component";
-import { CartContext } from "../../contexts/cart.context";
-import { useNavigate } from "react-router-dom";
+import { BUTTON_TYPE_CLASS } from '../button/button.component';
+import { useNavigate } from 'react-router-dom';
 import {
   CartContainer,
   CartEmptyMessage,
   CartItems,
-} from "./cart-dropdown.style";
-import Button from "../button/button.component";
-import CartItem from "../cart-item/cart-item.component";
-import { ProductsContext } from "../../contexts/products.context";
-
+} from './cart-dropdown.style';
+import Button from '../button/button.component';
+import CartItem from '../cart-item/cart-item.component';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectCartIsOpen,
+  selectCartItems,
+} from '../../store/cart/cart.selector';
+import { setIsCartOpen } from '../../store/cart/cart.action';
 const CartDropdown = () => {
-  const { cartItems } = useContext(CartContext);
-  const { categoriesMap } = useContext(ProductsContext);
-  console.log(categoriesMap);
+  const isCartOpen = useSelector(selectCartIsOpen);
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
   const checkoutHandler = () => {
-    navigate("/checkout");
+    dispatch(setIsCartOpen(!isCartOpen));
+    navigate('/checkout');
   };
 
   return (
