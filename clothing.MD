@@ -1308,3 +1308,114 @@ npm i reselect
 ![image-20231012171443932](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310121714327.png)
 
 <video src="D:\Video\Captures\React App - Google Chrome 2023-10-12 17-17-16.mp4"></video>
+
+```
+npm i redux-persist
+```
+
+允许我们将数据保存在localstorge
+
+```jsx
+import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer } from 'redux-persist';
+
+```
+
+```jsx
+const persisConfig = {
+  key: 'root',
+  storage,
+  blackList: ['user'],
+};
+```
+
+```jsx
+const persistedReducer = persistReducer(persisConfig, rootReducer);
+```
+
+```jsx
+export const store = createStore(persistedReducer, undefined, composeEnhances);
+export const persistStor = persistStore(store);
+
+```
+
+indexjs
+
+```jsx
+  <React.StrictMode>
+    <BrowserRouter>
+      <Provider store={store}>
+        <PersistGate persistor={persistStor} loading={null}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+
+```
+
+这样我们再次刷新浏览器，数据就不会丢失了
+
+localstorge也会有数据
+
+![image-20231013132139395](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310131321610.png)
+
+<video src="D:\Video\Captures\React App - Google Chrome 2023-10-13 13-22-37.mp4"></video>
+
+配置条件
+
+```jsx
+const middleWare = [process.env.NODE_ENV === 'development' && logger].filter(
+  Boolean
+);
+console.log(window.__REDUX);
+const composeEnhancer =
+  (process.env.NODE_ENV !== 'production' &&
+    window &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
+const composeEnhances = composeEnhancer(applyMiddleware(...middleWare));
+console.log(process.env);
+
+```
+
+![image-20231013134247311](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310131342466.png)
+
+```jsx
+// standard middleware definition, with 3 nested functions:
+// 1) Accepts `{dispatch, getState}`
+// 2) Accepts `next`
+// 3) Accepts `action`
+const thunkMiddleware =
+  ({ dispatch, getState }) =>
+  next =>
+  action => {
+    // If the "action" is actually a function instead...
+    if (typeof action === 'function') {
+      // then call the function and pass `dispatch` and `getState` as arguments
+      return action(dispatch, getState)
+    }
+
+    // Otherwise, it's a normal action - send it onwards
+    return next(action)
+  }
+```
+
+ours
+
+```jsx
+export const fetchCategoriesAsync = () => {
+  return async dispatch => {
+    dispatch(fetchCategoriesStart());
+    try {
+      const categories = await getCategoriesAndDocuments('categories');
+      dispatch(fetchCategoriesSuccess(categories));
+    } catch (error) {
+      dispatch(fetchCategoriesFail(error));
+    }
+  };
+};
+
+```
+

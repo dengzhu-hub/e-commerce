@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
-
+import { PersistGate } from 'redux-persist/integration/react';
 import './index.scss';
 import App from './App';
 // import "./App.css";
@@ -9,14 +9,16 @@ import App from './App';
 import { TodoReducer } from './utils/clasj';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { store } from './store/store';
+import { store, persistStor } from './store/store';
 
 const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <PersistGate persistor={persistStor} loading={null}>
+          <App />
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
