@@ -1419,3 +1419,37 @@ export const fetchCategoriesAsync = () => {
 
 ```
 
+result
+
+![image-20231014153747614](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310141537143.png)
+
+# redux-saga
+
+* generator function
+
+  ```javascript
+  function* gen(i) {
+      yield 5;
+      yield i + 5;
+      return 50;
+  }
+  undefined
+  gen
+  ƒ* gen(i) {
+      yield 5;
+      yield i + 5;
+      return 50;
+  }
+  const ge = gen(5);
+  undefined
+  ge
+  gen {<suspended>}[[GeneratorLocation]]: VM1053:1[[Prototype]]: Generator[[GeneratorState]]: "suspended"[[GeneratorFunction]]: ƒ* gen(i)[[GeneratorReceiver]]: Window[[Scopes]]: Scopes[3]
+  ge.next()
+  {value: 5, done: false}
+  ge.next()
+  {value: 10, done: false}
+  ge.next()
+  {value: 50, done: true}
+  ```
+
+  ![image-20231015132334991](https://makeforpicgo.oss-cn-chengdu.aliyuncs.com/study/202310151323194.png)

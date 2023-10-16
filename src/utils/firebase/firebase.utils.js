@@ -87,6 +87,7 @@ export const createUserDocumentFromAuth = async (
   return userDocRef;
 };
 
+
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
@@ -141,6 +142,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, 'categories');
   const q = query(collectionRef);
+  // await Promise.reject(new Error('Cannot find categories'));
   const querySnapSHop = await getDocs(q);
   return querySnapSHop.docs.map(doc => doc.data());
 
@@ -150,4 +152,17 @@ export const getCategoriesAndDocuments = async () => {
   //   return acc;
   // }, {});
   // return categoryMap;
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unObserve = onAuthStateChanged(
+      auth,
+      userAuth => {
+        unObserve();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
 };

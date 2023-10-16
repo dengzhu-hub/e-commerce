@@ -1,5 +1,14 @@
 import USER_ACTION_TYPES from './user.type';
 import { createAction } from '../../utils/reducer/createAction';
 
-export const setCurrentUser = (user) =>
+export const setCurrentUser = user =>
   createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user);
+
+export const checkUserSession = () =>
+  createAction(USER_ACTION_TYPES.CHECK_USER_SESSION);
+export const googleSignInStart = () =>
+  createAction(USER_ACTION_TYPES.GOOGLE_SIGN_IN_START);
+export const emailSignInStart = (email, password) =>
+  createAction(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, { email, password });
+export const signSuccess = (user) => createAction(USER_ACTION_TYPES.SIGN_IN_SUCCESS, user);
+export const signFailure = (error) => createAction(USER_ACTION_TYPES.SIGN_IN_FAILURE, error);
