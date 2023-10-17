@@ -51,7 +51,8 @@ googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 export const auth = getAuth();
-export const signInWithGooglePop = () => signInWithPopup(auth, googleProvider);
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
 export const signWithFaacePop = () =>
   signInWithPopup(auth, facebookAuthProvider);
 export const signInWithGoogleRedirect = () =>
@@ -62,14 +63,11 @@ export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInfo = {}
 ) => {
-  if (!userAuth) return;
+  if (!userAuth) return null;
   const userDocRef = doc(db, 'user', userAuth.uid);
-  // console.log(userDocRef);
-  const userSnapShot = await getDoc(userDocRef);
-  // console.log(userSnapShot);
-  // console.log(userSnapShot.exists());
 
-  // if data not exists
+  const userSnapShot = await getDoc(userDocRef);
+
   if (!userSnapShot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
@@ -84,9 +82,11 @@ export const createUserDocumentFromAuth = async (
       console.error(err);
     }
   }
-  return userDocRef;
-};
 
+  // 获取并返回数据的快照
+  const updatedUserSnapShot = await getDoc(userDocRef);
+  return updatedUserSnapShot;
+};
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
@@ -142,16 +142,9 @@ export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, 'categories');
   const q = query(collectionRef);
-  // await Promise.reject(new Error('Cannot find categories'));
-  const querySnapSHop = await getDocs(q);
-  return querySnapSHop.docs.map(doc => doc.data());
 
-  // .reduce((acc, docSnapShop) => {
-  //   const { title, items } = docSnapShop.data();
-  //   acc[title.toLowerCase()] = items;
-  //   return acc;
-  // }, {});
-  // return categoryMap;
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(docSnapshot => docSnapshot.data());
 };
 
 export const getCurrentUser = () => {

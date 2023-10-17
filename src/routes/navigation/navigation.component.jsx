@@ -8,12 +8,18 @@ import { useSelector } from 'react-redux';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 import { selectCurrentUser } from '../../store/user/user.selector';
 import { selectCartIsOpen } from '../../store/cart/cart.selector';
+import { signOutStart } from '../../store/user/user.action';
+import { useDispatch } from 'react-redux';
 
 function Navigation() {
+  const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectCartIsOpen);
   console.log(currentUser);
-
+  const signOutUser = () => {
+    console.log('signOut done !');
+    dispatch(signOutStart());
+  };
   return (
     <Fragment>
       <Nav>

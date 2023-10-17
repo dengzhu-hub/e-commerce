@@ -6,6 +6,7 @@ import CategoriesPreview from '../categories-preview/categories-preview.componen
 import Category from '../category/category.component';
 import { fetchCategoriesStart } from '../../store/category/category.action';
 const Shop = () => {
+  console.log('Shop component is available');
   const dispatch = useDispatch();
 
   useEffect(() => {

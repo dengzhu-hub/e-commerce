@@ -1,23 +1,26 @@
-import { useState } from "react";
-import {SignUpContainer, SubTitle, SignUpTitle} from './signUp.style';
-import Button, { BUTTON_TYPE_CLASS } from "../../components/button/button.component";
+import { useState } from 'react';
+import { SignUpContainer, SubTitle, SignUpTitle } from './signUp.style';
+import { useDispatch } from 'react-redux';
+import { signUpStart } from '../../store/user/user.action';
+import Button from '../../components/button/button.component';
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
-import FormInput from "../form-input/formInput.component";
+} from '../../utils/firebase/firebase.utils';
+import FormInput from '../form-input/formInput.component';
 
 const defaultFormField = {
-  displayName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+  displayName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
 };
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormField);
   // const val = useContext(UserContext);
-  console.log("hit");
+  console.log('hit');
 
   // console.log(formFields);
   // console.log({ ...formFields });
@@ -30,35 +33,32 @@ const SignUpForm = () => {
   const onHandleSubmit = async e => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("password are not correct.");
+      alert('password are not match.');
       return;
     }
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      dispatch(signUpStart(email, password, displayName));
+
+      console.log('sign up successful');
+
       // setCurrentUser(user);
       // console.log(user);
       /**
        * clear form input
        */
       resetFormField();
-
-      await createUserDocumentFromAuth(user, { displayName });
-      console.log(user);
     } catch (err) {
-      if (err.code === "auth/weak-password") {
-        alert("password are too short.");
-      } else if (err.code === "auth/email-already-in-use") {
-        alert("email is already in use");
+      if (err.code === 'auth/weak-password') {
+        alert('password are too short.');
+      } else if (err.code === 'auth/email-already-in-use') {
+        alert('email is already in use');
       } else {
         console.log(err);
       }
     }
   };
   const onHandleChanged = e => {
-    console.log(e.target);
+    // console.log(e.target);
     const { name, value } = e.target;
     // console.log(name, value);
     setFormFields({ ...formFields, [name]: value });

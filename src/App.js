@@ -14,10 +14,8 @@ function App() {
   console.log('hello world');
 
   useEffect(() => {
-    getCurrentUser()
-      .then(user => console.log(user))
-      .catch(err => console.log(err));
-  }, []);
+    dispatch(checkUserSession());
+  }, [dispatch]);
 
   return (
     <Routes>

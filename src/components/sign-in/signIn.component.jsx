@@ -1,17 +1,25 @@
-import { useState } from "react";
-import Button, { BUTTON_TYPE_CLASS } from "../button/button.component";
-import FormInput from "../form-input/formInput.component";
-import { SignInContainer, SignInTitle, SubTitle, ButtonContainer } from "./signIn.style";
+import { useState } from 'react';
+import Button, { BUTTON_TYPE_CLASS } from '../button/button.component';
+import FormInput from '../form-input/formInput.component';
+import { useDispatch } from 'react-redux';
 import {
-  signInWithGooglePop,
-  signInAuthUserWithEmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
+  googleSignInStart,
+  emailSignInStart,
+} from '../../store/user/user.action';
+import {
+  SignInContainer,
+  SignInTitle,
+  SubTitle,
+  ButtonContainer,
+} from './signIn.style';
+import { signInAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
 const defaultFormField = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 const SignInForm = () => {
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormField);
   // const { setCurrentUser } = useContext(UserContext);
   // console.log(formFields);
@@ -25,9 +33,8 @@ const SignInForm = () => {
   /**
    * Sign with Google
    */
-  const signWithGoogle = async () => {
-    const { user } = await signInWithGooglePop();
-    console.log(user);
+  const signInWithGoogle = async () => {
+    dispatch(googleSignInStart());
   };
 
   /**
@@ -39,13 +46,7 @@ const SignInForm = () => {
   const onHandleSubmit = async e => {
     e.preventDefault();
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      console.log(user);
-      // setCurrentUser(user);
-      // console.log(user)
+      dispatch(emailSignInStart(email, password));
 
       /**
        * clear form input
@@ -53,11 +54,11 @@ const SignInForm = () => {
       resetFormField();
     } catch (error) {
       switch (error.code) {
-        case "auth/user-not-found":
-          alert("👤.user not found, please try again, \u{1F920} ");
+        case 'auth/user-not-found':
+          alert('👤.user not found, please try again, \u{1F920} ');
           break;
-        case "auth/wrong-password":
-          alert("🔑.password is incorrect, please try again");
+        case 'auth/wrong-password':
+          alert('🔑.password is incorrect, please try again');
           break;
         default:
           console.log(error);
@@ -106,7 +107,7 @@ const SignInForm = () => {
           <Button
             type="button"
             buttonType={BUTTON_TYPE_CLASS.google}
-            onClick={signWithGoogle}
+            onClick={signInWithGoogle}
           >
             <img
               className="sign-in__icon"
