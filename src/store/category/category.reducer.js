@@ -1,5 +1,4 @@
 import CATEGORIES_ACTION_TYPES from './category.type';
-
 export const CATEGORIES_INITIAL_STATE = {
   categories: [],
   isLoading: false,

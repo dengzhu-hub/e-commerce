@@ -27,3 +27,8 @@ package-lock.json
 .vscode/
 src/utils/clasj/
 src/utils/clasj
+
+
+.env
+# Local Netlify folder
+.netlify

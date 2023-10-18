@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { PersistGate } from 'redux-persist/integration/react';
 import './index.scss';
+
 import App from './App';
 // import "./App.css";
 // eslint-disable-next-line

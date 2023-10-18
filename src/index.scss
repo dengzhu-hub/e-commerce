@@ -1,8 +1,14 @@
-@import "../node_modules/open-color/open-color.scss";
+@import '../node_modules/open-color/open-color.scss';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --light-grey: #f6f9fc;
+  --dark-terminal-color: #0a2540;
+  --accent-color: #635bff;
+  --radius: 3px;
+}
 *,
 *::before,
 *::after {
@@ -16,13 +22,13 @@ html {
 body {
   padding: 1.5rem 3rem;
   margin: 0;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 a {
