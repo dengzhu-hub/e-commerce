@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './utils/firebase/firebase.utils';
 import { useEffect } from 'react';
 import { checkUserSession } from './store/user/user.action';
+import CheckoutSuccess from './routes/checkoutSuccess/checkoutSuccess';
 function App() {
   const dispatch = useDispatch();
   // console.log(jsonData);
@@ -25,6 +26,7 @@ function App() {
         <Route path="shop/*" element={<Shop />}></Route>
         <Route path="auth" element={<Authentication />}></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
+        <Route path="/checkout-success" element={<CheckoutSuccess />}></Route>
       </Route>
     </Routes>
   );
