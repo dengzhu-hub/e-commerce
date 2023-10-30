@@ -1,26 +1,28 @@
-import { useState, useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import CheckoutForm from '../button/CheckoutForm';
-import { Elements } from '@stripe/react-stripe-js';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectPublicKey } from '../../store/stripe/stripe.select';
-import { fetchPublishableKeyStart } from '../../store/stripe/stripe.action';
-function Payment() {
-const [stripePromise, setStripePromise] = useState(null);
-  useEffect(() => {
-    fetch('/config').then(async r => {
-      const { publishableKey } = await r.json();
-      console.log(publishableKey);
-      setStripePromise(loadStripe(publishableKey));
-    });
-  }, []);
-  return (
-    <>
-      <Elements stripe={publicKey}>
-        <CheckoutForm />
-      </Elements>
-    </>
-  );
-}
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectCartItems } from '../../store/cart/cart.selector';
+import Button from '../button/button.component';
+import axios from 'axios';
+import { selectCurrentUser } from '../../store/user/user.selector';
+import { url } from '../../utils/slice/api';
+export default function Payment() {
+  const cartItems = useSelector(selectCartItems);
+  const currentUser = useSelector(selectCurrentUser);
+  const onCheckoutHandler = () => {
+    axios
+      .post(`${url}/create-checkout-session`, {
+        cartItems,
+        user: currentUser,
+      })
+      .then(res => {
+        if (res.data.url) {
+          window.location.href = res.data.url;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
-export default Payment;
+  return <Button onClick={onCheckoutHandler}>check out</Button>;
+}
